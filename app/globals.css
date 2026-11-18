@@ -1,0 +1,71 @@
+@import "tailwindcss";
+
+/*
+ * The ghost can't trigger :hover or :active, so it mirrors them as attributes.
+ * Overriding the variants keeps components written with plain hover:/active:.
+ */
+@custom-variant hover {
+  @media (hover: hover) and (pointer: fine) {
+    &:hover {
+      @slot;
+    }
+  }
+  &[data-ghost-hover] {
+    @slot;
+  }
+}
+
+@custom-variant active {
+  &:active {
+    @slot;
+  }
+  &[data-ghost-active] {
+    @slot;
+  }
+}
+
+@theme inline {
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+  --font-serif: var(--font-newsreader);
+}
+
+:root {
+  --page: #fbfbfa;
+  --ink: #1c1c1c;
+}
+
+html {
+  background: var(--page);
+  color: var(--ink);
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+::selection {
+  background: rgb(0 0 0 / 0.08);
+}
+
+:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 2px;
+}
+
+button,
+a,
+[role="slider"] {
+  touch-action: manipulation;
+}
+
+.prose-code::-webkit-scrollbar {
+  height: 8px;
+}
+
+.prose-code::-webkit-scrollbar-thumb {
+  background: rgb(0 0 0 / 0.2);
+  border-radius: 4px;
+}
