@@ -1,23 +1,31 @@
-import { GhostCursor } from "@psychedelichip/ghost-cursor";
+import type { Metadata } from "next";
+import { Suspense } from "react";
+import { GhostReplay } from "@psychedelichip/ghost-cursor";
 import { SortMenu } from "@/components/demos/sort-menu";
 import { InstallCommand } from "@/components/install-command";
 import { A, C, Code, Figure, H2, P, Step } from "@/components/prose";
+import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
+import { TellAgent } from "@/components/tell-agent";
 import sortMenu from "@/recordings/sort-menu.json";
 
-const INSTALL = `
-npm i @psychedelichip/ghost-cursor
+export const metadata: Metadata = {
+  alternates: { types: { "text/markdown": "/docs.md" } },
+};
 
+const SENTENCE = "Read https://ghost-cursor-seven.vercel.app/docs and record this component’s interaction.";
+
+const INSTALL = `
 /* app/globals.css */
 @import "tailwindcss";
 @import "@psychedelichip/ghost-cursor/styles.css" layer(components);`;
 
 const WRAP = `
-import { GhostCursor } from "@psychedelichip/ghost-cursor";
+import { GhostReplay } from "@psychedelichip/ghost-cursor";
 import take from "./sort-menu.json";
-<GhostCursor recording={take} className="h-[320px]">
+<GhostReplay recording={take} style={{ height: 320 }}>
   <SortMenu />
-</GhostCursor>`;
+</GhostReplay>`;
 
 const RECORD = `
 npm run dev
@@ -36,23 +44,26 @@ export default function Home() {
         </h1>
 
         <div className="mt-12">
-        <Figure
-          caption={
-            <>
-              The real menu, replaying a take I recorded by hand. Move into the box and it’s yours. Leave, and the
-              ghost carries on.
-            </>
-          }
-        >
-          <GhostCursor recording={sortMenu} className="h-[340px]">
-            <SortMenu />
-          </GhostCursor>
-        </Figure>
+          <Figure caption="The real menu, replaying a take I recorded by hand. Move into the box and it’s yours. Leave, and the ghost carries on.">
+            <GhostReplay recording={sortMenu} className="h-[340px]">
+              <SortMenu />
+            </GhostReplay>
+          </Figure>
         </div>
 
-        <InstallCommand command="npm i @psychedelichip/ghost-cursor" />
+        <section className="mt-12" aria-labelledby="tell-agent">
+          <div id="tell-agent" className="label mb-2">
+            Tell your agent
+          </div>
+          <TellAgent sentence={SENTENCE} />
+          <p className="mt-3">
+            Name the component and what it should do, or ask it to open the record toolbar instead. The agent reads the
+            steps from <A href="/docs/agents">the docs for agents</A>, records a take, checks that it replays, and gives
+            you the snippet.
+          </p>
+        </section>
 
-        <H2>Three steps</H2>
+        <H2>Or do it yourself</H2>
         <P>
           ghost-cursor dispatches real pointer and keyboard events, so nothing inside your component knows it’s being
           replayed.
@@ -60,6 +71,7 @@ export default function Home() {
 
         <Step n={1} title="Install">
           <P>npm installs Motion alongside it as a peer dependency. Motion drives the cursor’s spring.</P>
+          <InstallCommand command="npm i @psychedelichip/ghost-cursor" />
           <Code>{INSTALL}</Code>
         </Step>
 
@@ -79,9 +91,12 @@ export default function Home() {
         </Step>
 
         <p className="mt-12">
-          The <A href="/docs">docs</A> cover recording with an agent, every prop, and four more examples.
+          The <A href="/docs">docs</A> cover recording, the agent skill, every prop, and four more examples.
         </p>
       </main>
+      <Suspense>
+        <SiteFooter />
+      </Suspense>
     </div>
   );
 }

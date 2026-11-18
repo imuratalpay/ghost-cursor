@@ -8,7 +8,9 @@ Live, replayable component demos for writing about interfaces. A ghost cursor re
 npm i @psychedelichip/ghost-cursor motion
 ```
 
-React 18 or later and Motion are peer dependencies. Load the stylesheet once:
+React 18 or later and Motion are peer dependencies. Until the package is on npm, install the tarball the docs site serves: `npm i https://ghost-cursor-seven.vercel.app/ghost-cursor.tgz motion`.
+
+Load the stylesheet once:
 
 ```css
 /* With Tailwind CSS v4, in the components layer so your classes win */
@@ -43,7 +45,11 @@ Put `data-ghost-id` on the elements the cursor clicks, so recordings refer to th
 2. Press Record, use the component, press Stop.
 3. Press Copy recording and paste the JSON into the file you import.
 
-`<Recorder>` gives you the same controls in any environment, including production. With a coding agent, the `ghost-record` skill in this repository records and checks a take from one sentence.
+`<DevRecorder>` shows the same toolbar around any component in development and renders nothing extra in production. `<Recorder>` shows it in every environment.
+
+## With a coding agent
+
+Tell your agent: "Read https://ghost-cursor-seven.vercel.app/docs and record this component's interaction." Agents read the steps from `/llms.txt` or `/docs/agents.md`: they record a take, check that it replays, and print the embed snippet.
 
 ## Hover and press states
 
@@ -61,6 +67,7 @@ A script can't switch on `:hover`, `:active` or `:focus`, so the ghost mirrors t
 | Export | What it is |
 | --- | --- |
 | `GhostCursor`, `GhostReplay` | The same component under two names. Plays a recording. Props: `recording`, `children`, `className`, `style`, `loopDelay` (ms, default 1600). With `?record` in development, it records instead. |
+| `DevRecorder` | The record toolbar in development, the children alone in production. Same props as `Recorder`. |
 | `Recorder` | Records in every environment. Props: `children`, `className`, `style`, `onRecord(recording)`, `captureSynthetic`. |
 | `Recording`, `RecordingInput` | The JSON format and the looser type a JSON import infers. |
 

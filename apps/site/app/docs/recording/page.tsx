@@ -8,7 +8,10 @@ import filterListTake from "@/components/demos/filter-list.take.json";
 import recorderFlow from "@/recordings/recorder-flow.json";
 import recorderPreview from "@/recordings/recorder-preview.json";
 
-export const metadata: Metadata = { title: "Recording" };
+export const metadata: Metadata = {
+  title: "Recording",
+  alternates: { types: { "text/markdown": "/docs/recording.md" } },
+};
 
 
 export default function Recording() {

@@ -1,5 +1,6 @@
 import { Suspense } from "react";
 import { DocsNav } from "@/components/docs-nav";
+import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
 
 export default function DocsLayout({ children }: LayoutProps<"/docs">) {
@@ -12,6 +13,9 @@ export default function DocsLayout({ children }: LayoutProps<"/docs">) {
         </Suspense>
       </div>
       <main>{children}</main>
+      <Suspense>
+        <SiteFooter />
+      </Suspense>
     </div>
   );
 }

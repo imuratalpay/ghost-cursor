@@ -9,7 +9,10 @@ import copyCommand from "@/recordings/copy-command.json";
 import recorderFlow from "@/recordings/recorder-flow.json";
 import sortMenu from "@/recordings/sort-menu.json";
 
-export const metadata: Metadata = { title: "Getting started" };
+export const metadata: Metadata = {
+  title: "Getting started",
+  alternates: { types: { "text/markdown": "/docs.md" } },
+};
 
 const INSTALL = "npm i @psychedelichip/ghost-cursor";
 
@@ -22,7 +25,11 @@ export default function GettingStarted() {
         component doesn’t know it’s being replayed. When a reader moves into the box, the ghost fades out and the
         component is <em>theirs</em>.
       </P>
-      <P>Three steps get you from install to your first take.</P>
+      <P>
+        Three steps get you from install to your first take. If you’re an agent, read{" "}
+        <A href="/docs/agents">For agents</A> or <a className="link" href="/llms.txt">/llms.txt</a> instead: it has
+        the exact steps for recording a take and for mounting the record toolbar.
+      </P>
 
       <Step n={1} title="Install the package">
         <P>

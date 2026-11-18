@@ -11,7 +11,10 @@ import recorderPreview from "@/recordings/recorder-preview.json";
 import sortMenu from "@/recordings/sort-menu.json";
 import viewSettings from "@/recordings/view-settings.json";
 
-export const metadata: Metadata = { title: "Examples" };
+export const metadata: Metadata = {
+  title: "Examples",
+  alternates: { types: { "text/markdown": "/docs/examples.md" } },
+};
 
 export default function Examples() {
   return (

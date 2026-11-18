@@ -2,7 +2,10 @@ import type { Metadata } from "next";
 import { neighbors } from "@/components/docs-pages";
 import { C, Code, H1, H2, Kbd, P, PrevNext, Table } from "@/components/prose";
 
-export const metadata: Metadata = { title: "API" };
+export const metadata: Metadata = {
+  title: "API",
+  alternates: { types: { "text/markdown": "/docs/api.md" } },
+};
 
 const Req = () => <span className="text-fg-3"> required</span>;
 
@@ -11,8 +14,9 @@ export default function Api() {
     <>
       <H1>API</H1>
       <P>
-        Two components and one JSON format. <C>{"<GhostCursor>"}</C> plays a recording, and records too when you open
-        the page with <C>?record</C> in development. <C>{"<Recorder>"}</C> records in every environment.
+        Three components and one JSON format. <C>{"<GhostCursor>"}</C> plays a recording, and records too when you
+        open the page with <C>?record</C> in development. <C>{"<DevRecorder>"}</C> shows the record toolbar in
+        development only. <C>{"<Recorder>"}</C> records in every environment.
       </P>
 
       <H2 id="ghost-cursor">GhostCursor</H2>
@@ -58,6 +62,18 @@ export default function Api() {
           ],
         ]}
       />
+
+      <H2 id="dev-recorder">DevRecorder</H2>
+      <P>
+        The record toolbar around <C>children</C> in <C>next dev</C>, and <C>children</C> alone in a production build,
+        so you don’t need a <C>NODE_ENV</C> check. It takes the same props as <C>{"<Recorder>"}</C>.
+      </P>
+      <Code>{`
+import { DevRecorder } from "@psychedelichip/ghost-cursor";
+
+<DevRecorder style={{ height: 320 }}>
+  <LikeButton />
+</DevRecorder>`}</Code>
 
       <H2 id="recorder">Recorder</H2>
       <P>

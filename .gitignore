@@ -24,3 +24,11 @@ playwright-report/
 # playwright output
 /test-results/
 /playwright-report/
+
+# generated agent assets (scripts/prepare-agent-assets.mjs)
+apps/site/content/generated.ts
+apps/site/public/skills/
+apps/site/public/ghost-cursor.tgz
+
+# agent e2e output
+tests/agent-e2e/results/

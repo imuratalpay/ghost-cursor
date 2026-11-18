@@ -11,7 +11,8 @@
     "lint": "npm run lint -w site",
     "test": "npm run build && playwright test",
     "test:e2e": "playwright test",
-    "ghost-record": "tsx skills/ghost-record/scripts/ghost-record.ts"
+    "ghost-record": "node skills/ghost-record/scripts/ghost-record.mjs",
+    "test:agent": "node tests/agent-e2e/run.mjs"
   },
   "devDependencies": {
     "@playwright/test": "^1.65.1",

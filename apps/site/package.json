@@ -3,13 +3,16 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "predev": "node scripts/prepare-agent-assets.mjs",
     "dev": "next dev",
+    "prebuild": "node scripts/prepare-agent-assets.mjs",
     "build": "next build",
     "start": "next start",
     "lint": "eslint"
   },
   "dependencies": {
     "@psychedelichip/ghost-cursor": "*",
+    "marked": "^18.2.1",
     "motion": "^14.14.0",
     "next": "16.4.6",
     "react": "19.3.0",

@@ -5,7 +5,10 @@ import { FilterList } from "@/components/demos/filter-list";
 import filterListTake from "@/components/demos/filter-list.take.json";
 import { C, Code, Figure, H1, H2, P, PrevNext, Table } from "@/components/prose";
 
-export const metadata: Metadata = { title: "Agent skill" };
+export const metadata: Metadata = {
+  title: "Agent skill",
+  alternates: { types: { "text/markdown": "/docs/agent-skill.md" } },
+};
 
 const OUTPUT = `
 → FilterList from apps/site/components/demos/filter-list.tsx

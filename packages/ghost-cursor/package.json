@@ -3,26 +3,36 @@
   "version": "0.1.0",
   "description": "Live, replayable React component demos. A ghost cursor replays a recording with real DOM events and steps aside when the reader reaches for the component.",
   "license": "MIT",
+  "homepage": "https://ghost-cursor-seven.vercel.app",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/psychedelichip/ghost-cursor.git",
+    "directory": "packages/ghost-cursor"
+  },
   "type": "module",
   "sideEffects": [
     "*.css"
   ],
   "files": [
-    "dist"
+    "dist",
+    "README.md"
   ],
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
-      "import": "./dist/index.js"
+      "import": "./dist/index.js",
+      "default": "./dist/index.js"
     },
-    "./styles.css": "./dist/styles.css"
+    "./styles.css": "./dist/styles.css",
+    "./package.json": "./package.json"
   },
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "scripts": {
     "build": "tsup",
     "dev": "tsup --watch",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "prepack": "npm run build"
   },
   "peerDependencies": {
     "motion": ">=12",
@@ -37,6 +47,9 @@
     "react-dom": "19.3.0",
     "tsup": "^9.0.0",
     "typescript": "^5"
+  },
+  "publishConfig": {
+    "access": "public"
   },
   "keywords": [
     "react",

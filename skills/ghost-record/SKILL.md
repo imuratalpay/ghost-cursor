@@ -29,8 +29,17 @@ Read the component, then map each verb in the sentence to one step. Aim at eleme
 
 ## 3. Run it
 
+The project needs the package and Playwright. Check `package.json` first and install only what's missing:
+
 ```bash
-npx tsx skills/ghost-record/scripts/ghost-record.ts \
+npm i @psychedelichip/ghost-cursor motion
+npm i -D playwright && npx playwright install chromium
+```
+
+Then run the script from the project root. It sits next to this file, in `scripts/`:
+
+```bash
+node <this skill's folder>/scripts/ghost-record.mjs \
   --component components/like-button.tsx#LikeButton \
   'hover @like' 'click @like' 'click role=button[name=Share]' 'click text=Copy link'
 ```

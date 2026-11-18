@@ -4,6 +4,7 @@ export const DOCS = [
   { href: "/docs/agent-skill", title: "Agent skill" },
   { href: "/docs/api", title: "API" },
   { href: "/docs/examples", title: "Examples" },
+  { href: "/docs/agents", title: "For agents" },
 ] as const;
 
 /** Previous and next pages in reading order. */
