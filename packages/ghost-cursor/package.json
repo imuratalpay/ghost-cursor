@@ -1,0 +1,49 @@
+{
+  "name": "@psychedelichip/ghost-cursor",
+  "version": "0.1.0",
+  "description": "Live, replayable React component demos. A ghost cursor replays a recording with real DOM events and steps aside when the reader reaches for the component.",
+  "license": "MIT",
+  "type": "module",
+  "sideEffects": [
+    "*.css"
+  ],
+  "files": [
+    "dist"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./styles.css": "./dist/styles.css"
+  },
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "typecheck": "tsc --noEmit"
+  },
+  "peerDependencies": {
+    "motion": ">=12",
+    "react": ">=18",
+    "react-dom": ">=18"
+  },
+  "devDependencies": {
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "motion": "^14.14.0",
+    "react": "19.3.0",
+    "react-dom": "19.3.0",
+    "tsup": "^9.0.0",
+    "typescript": "^5"
+  },
+  "keywords": [
+    "react",
+    "demo",
+    "cursor",
+    "replay",
+    "interaction",
+    "blog"
+  ]
+}

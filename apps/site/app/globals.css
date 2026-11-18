@@ -1,0 +1,101 @@
+@import "tailwindcss";
+/* In the components layer, so utilities passed through className win over the library's defaults. */
+@import "@psychedelichip/ghost-cursor/styles.css" layer(components);
+
+/*
+ * The ghost can't trigger :hover, :active or :focus, so it mirrors them as attributes.
+ * Overriding the variants keeps components written with plain hover:, active: and focus:.
+ */
+@custom-variant hover {
+  @media (hover: hover) and (pointer: fine) {
+    &:hover {
+      @slot;
+    }
+  }
+  &[data-ghost-hover] {
+    @slot;
+  }
+}
+
+@custom-variant active {
+  &:active {
+    @slot;
+  }
+  &[data-ghost-active] {
+    @slot;
+  }
+}
+
+@custom-variant focus {
+  &:focus {
+    @slot;
+  }
+  &[data-ghost-focus] {
+    @slot;
+  }
+}
+
+@custom-variant focus-within {
+  &:focus-within {
+    @slot;
+  }
+  &:has([data-ghost-focus]) {
+    @slot;
+  }
+}
+
+@theme inline {
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+  --font-serif: var(--font-newsreader);
+}
+
+:root {
+  --page: #fbfbfa;
+  --ink: #1c1c1c;
+}
+
+html {
+  background: var(--page);
+  color: var(--ink);
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+::selection {
+  background: rgb(0 0 0 / 0.08);
+}
+
+:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 2px;
+}
+
+button,
+a,
+[role="slider"] {
+  touch-action: manipulation;
+}
+
+[id] {
+  scroll-margin-top: 24px;
+}
+
+.prose-code::-webkit-scrollbar {
+  height: 8px;
+}
+
+.prose-code::-webkit-scrollbar-thumb {
+  background: rgb(0 0 0 / 0.2);
+  border-radius: 4px;
+}
+
+/* Outlines every element a recording can aim at. */
+.show-targets [data-ghost-id] {
+  outline: 1.5px dashed rgb(37 99 235 / 0.6);
+  outline-offset: -1px;
+}

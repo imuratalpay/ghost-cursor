@@ -1,27 +1,19 @@
 {
-  "name": "ghost-cursor",
-  "version": "0.1.0",
+  "name": "ghost-cursor-monorepo",
   "private": true,
+  "workspaces": [
+    "packages/*",
+    "apps/*"
+  ],
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "eslint"
-  },
-  "dependencies": {
-    "motion": "^14.14.0",
-    "next": "16.4.6",
-    "react": "19.3.0",
-    "react-dom": "19.3.0"
+    "build": "npm run build -w @psychedelichip/ghost-cursor && npm run build -w site",
+    "dev": "npm run build -w @psychedelichip/ghost-cursor && (npm run dev -w @psychedelichip/ghost-cursor & npm run dev -w site)",
+    "lint": "npm run lint -w site",
+    "record": "tsx skills/ghost-cursor/scripts/record.ts"
   },
   "devDependencies": {
-    "@tailwindcss/turbopack": "4.3.3",
-    "@types/node": "^20",
-    "@types/react": "^19",
-    "@types/react-dom": "^19",
-    "eslint": "^9",
-    "eslint-config-next": "16.4.6",
-    "tailwindcss": "4.3.3",
+    "playwright": "^1.65.1",
+    "tsx": "^4.23.15",
     "typescript": "^5"
   }
 }
