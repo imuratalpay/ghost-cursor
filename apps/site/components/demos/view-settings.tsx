@@ -11,7 +11,7 @@ const LAYOUTS = [
 
 type Layout = (typeof LAYOUTS)[number]["id"];
 
-const TILES = ["#e7e5e4", "#d6d3d1", "#e7e5e4", "#d6d3d1", "#e7e5e4", "#d6d3d1"];
+const TILES = ["var(--tile-a)", "var(--tile-b)", "var(--tile-a)", "var(--tile-b)", "var(--tile-a)", "var(--tile-b)"];
 
 const SPRING = { type: "spring", stiffness: 520, damping: 44 } as const;
 
@@ -41,7 +41,7 @@ export function ViewSettings() {
           <div
             role="radiogroup"
             aria-label="Layout"
-            className="inline-flex rounded-[10px] bg-black/[0.05] p-0.5"
+            className="inline-flex rounded-[10px] bg-tint p-0.5"
             onKeyDown={(e) => {
               const i = LAYOUTS.findIndex((l) => l.id === layout);
               const n = LAYOUTS.length;
@@ -65,13 +65,13 @@ export function ViewSettings() {
                   tabIndex={checked ? 0 : -1}
                   data-ghost-id={`layout-${l.id}`}
                   onClick={(e) => select(i, e.detail === 0)}
-                  className="relative isolate h-7 rounded-lg px-3 text-[13px] font-medium text-neutral-500 transition-colors duration-150 ease-out hover:text-neutral-800 aria-checked:text-neutral-900"
+                  className="relative isolate h-7 rounded-lg px-3 text-[13px] font-medium text-fg-3 transition-colors duration-150 ease-out hover:text-fg-1 aria-checked:text-fg-1"
                 >
                   {checked && (
                     <motion.span
                       layoutId="pill"
                       transition={instant ? { duration: 0 } : SPRING}
-                      className="absolute inset-0 -z-10 rounded-lg bg-white shadow-[0_0_0_0.5px_rgb(0_0_0/0.08),0_1px_2px_rgb(0_0_0/0.1)]"
+                      className="absolute inset-0 -z-10 rounded-lg bg-surface shadow-[0_0_0_0.5px_var(--line-strong),var(--lift)]"
                     />
                   )}
                   {l.label}
@@ -81,7 +81,7 @@ export function ViewSettings() {
           </div>
         </LayoutGroup>
 
-        <label className="flex cursor-pointer items-center gap-2.5 text-[13px] text-neutral-600 select-none">
+        <label className="flex cursor-pointer items-center gap-2.5 text-[13px] text-fg-2 select-none">
           Compact
           <button
             type="button"
@@ -89,19 +89,19 @@ export function ViewSettings() {
             aria-checked={compact}
             data-ghost-id="compact"
             onClick={() => setCompact((c) => !c)}
-            className="relative h-[22px] w-9 rounded-full bg-neutral-300 transition-[background-color,scale] duration-150 ease-out active:scale-[0.95] aria-checked:bg-neutral-900"
+            className="relative h-[22px] w-9 rounded-full bg-track transition-[background-color,scale] duration-150 ease-out active:scale-[0.95] aria-checked:bg-switch-on"
           >
             <motion.span
               initial={false}
               animate={{ x: compact ? 14 : 0 }}
               transition={SPRING}
-              className="absolute top-0.5 left-0.5 size-[18px] rounded-full bg-white shadow-[0_1px_2px_rgb(0_0_0/0.2)]"
+              className="absolute top-0.5 left-0.5 size-[18px] rounded-full bg-switch-thumb shadow-[0_1px_2px_rgb(0_0_0/0.2)]"
             />
           </button>
         </label>
       </div>
 
-      <div className="relative mt-4 h-[188px] w-full max-w-[380px] overflow-hidden rounded-xl bg-white p-2.5 shadow-[0_0_0_1px_rgb(0_0_0/0.06)] [mask-image:linear-gradient(to_bottom,black_80%,transparent)]">
+      <div className="relative mt-4 h-[188px] w-full max-w-[380px] overflow-hidden rounded-xl bg-surface p-2.5 shadow-[0_0_0_1px_var(--line)] [mask-image:linear-gradient(to_bottom,black_80%,transparent)]">
         <div className={`grid ${grid} ${compact ? "gap-1.5" : "gap-2.5"}`}>
           {TILES.map((color, i) => (
             <motion.div

@@ -44,53 +44,251 @@
   }
 }
 
-@theme inline {
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-  --font-serif: var(--font-newsreader);
+/* Type and greys follow type-taste. Surfaces and lines are by eye: type-taste has no values for them. */
+:root {
+  --bg: #fcfcfc;
+  --fg-1: #202020;
+  --fg-2: #424242;
+  --fg-3: #6f6f6f;
+  --fg-4: #a0a0a0;
+  --fg-5: #c7c7c7;
+
+  --surface: #ffffff;
+  --stage: #f4f4f4;
+  --code: #f4f4f4;
+  --line: rgb(0 0 0 / 0.08);
+  --line-strong: rgb(0 0 0 / 0.15);
+  --tint: rgb(0 0 0 / 0.045);
+  --track: #d6d6d6;
+  --switch-on: #202020;
+  --switch-thumb: #ffffff;
+  --tile-a: #ececec;
+  --tile-b: #e1e1e1;
+  --lift: 0 1px 2px rgb(0 0 0 / 0.05);
+  --pop: 0 8px 24px -6px rgb(0 0 0 / 0.16);
 }
 
-:root {
-  --page: #fbfbfa;
-  --ink: #1c1c1c;
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #121212;
+    --fg-1: #eeeeee;
+    --fg-2: #dadada;
+    --fg-3: #b6b6b6;
+    --fg-4: #7c7c7c;
+    --fg-5: #3a3a3a;
+
+    --surface: #1d1d1d;
+    --stage: #171717;
+    --code: #181818;
+    --line: rgb(255 255 255 / 0.08);
+    --line-strong: rgb(255 255 255 / 0.15);
+    --tint: rgb(255 255 255 / 0.06);
+    --track: #3a3a3a;
+    --switch-on: #9a9a9a;
+    --switch-thumb: #f2f2f2;
+    --tile-a: #262626;
+    --tile-b: #2d2d2d;
+    /* Shadows don't read on dark surfaces; the 1px line carries the edge instead. */
+    --lift: 0 0 #0000;
+    --pop: 0 8px 24px -6px rgb(0 0 0 / 0.6);
+  }
+}
+
+@theme inline {
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-serif: var(--font-newsreader), Georgia, serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, "SF Mono", monospace;
+
+  --color-bg: var(--bg);
+  --color-fg-1: var(--fg-1);
+  --color-fg-2: var(--fg-2);
+  --color-fg-3: var(--fg-3);
+  --color-fg-4: var(--fg-4);
+  --color-fg-5: var(--fg-5);
+  --color-surface: var(--surface);
+  --color-stage: var(--stage);
+  --color-code: var(--code);
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+  --color-tint: var(--tint);
+  --color-track: var(--track);
+  --color-switch-on: var(--switch-on);
+  --color-switch-thumb: var(--switch-thumb);
+
+  --font-weight-ui: 450;
+  --font-weight-heading: 550;
+  --font-weight-display: 590;
+}
+
+/* The library's colors, mapped onto the site's tokens so demos follow the color scheme. */
+.gc-root {
+  --gc-fg: var(--fg-1);
+  --gc-muted: var(--fg-3);
+  --gc-stage: var(--stage);
+  --gc-surface: var(--surface);
+  --gc-line: var(--line);
+  --gc-line-strong: var(--line-strong);
+  --gc-tint: var(--tint);
+  --gc-track: var(--line-strong);
+  --gc-fill: var(--fg-3);
+  --gc-lift: var(--lift);
+  --gc-strong-fg: var(--fg-1);
+  --gc-strong-bg: var(--surface);
+  --gc-strong-ring: 0 0 0 1px var(--fg-3);
 }
 
 html {
-  background: var(--page);
-  color: var(--ink);
+  background: var(--bg);
   -webkit-text-size-adjust: 100%;
+  -webkit-tap-highlight-color: transparent;
 }
 
 body {
+  font-family: var(--font-sans);
+  font-feature-settings: "cv01", "ss03";
+  font-synthesis: none;
+  font-size: 16px;
+  line-height: 26px;
+  font-weight: 400;
+  color: var(--fg-2);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-::selection {
-  background: rgb(0 0 0 / 0.08);
+p,
+li {
+  text-wrap: pretty;
 }
 
-:focus-visible {
-  outline: 2px solid var(--ink);
-  outline-offset: 2px;
+h1,
+h2,
+h3 {
+  text-wrap: balance;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+b,
+strong {
+  font-weight: 550;
+  color: var(--fg-1);
+}
+
+em {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 430;
+  font-size: 1.07em;
+  line-height: 0;
+}
+
+code,
+kbd {
+  font-family: var(--font-mono);
+  font-size: 0.8125em;
+  line-height: 0;
+  color: var(--fg-1);
+}
+
+/* A block of code is its own line box, so the inline rule above doesn't apply to it. */
+pre,
+.code-line {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  line-height: 21.125px;
+  color: var(--fg-1);
+}
+
+pre code,
+.code-line code {
+  display: block;
+  font-size: inherit;
+  line-height: inherit;
+}
+
+th,
+.label {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 500;
+  letter-spacing: 0.3px;
+  text-transform: uppercase;
+  color: var(--fg-3);
+}
+
+table,
+time,
+.num {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Prose links: a quiet 1px underline that takes the text color on hover. */
+.link {
+  color: inherit;
+  text-decoration-line: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 2px;
+  text-decoration-color: var(--fg-5);
+  transition: text-decoration-color 150ms ease-out;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .link:hover {
+    text-decoration-color: currentColor;
+  }
+}
+
+/* iOS zooms into any input under 16px and never zooms back. */
+input,
+textarea,
+select {
+  font-size: 16px;
 }
 
 button,
 a,
+input,
+[role="button"],
 [role="slider"] {
   touch-action: manipulation;
+}
+
+button,
+[role="button"] {
+  user-select: none;
+}
+
+::selection {
+  background: var(--tint);
+  color: var(--fg-1);
+}
+
+:focus-visible {
+  outline: 2px solid var(--fg-1);
+  outline-offset: 2px;
 }
 
 [id] {
   scroll-margin-top: 24px;
 }
 
-.prose-code::-webkit-scrollbar {
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+pre::-webkit-scrollbar {
   height: 8px;
 }
 
-.prose-code::-webkit-scrollbar-thumb {
-  background: rgb(0 0 0 / 0.2);
+pre::-webkit-scrollbar-thumb {
+  background: var(--line-strong);
   border-radius: 4px;
 }
 

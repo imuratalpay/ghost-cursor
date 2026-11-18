@@ -320,43 +320,54 @@ await context.addInitScript(() => {
 const errors: string[] = [];
 
 try {
-  // 1. Record
-  const page = await context.newPage();
-  page.on("pageerror", (e) => errors.push(e.message));
-  const recordUrl = new URL(values.url);
-  recordUrl.searchParams.set("record", "");
-  await page.goto(recordUrl.toString());
-  await page.waitForSelector(".gc-root", { timeout: 20_000 }).catch(() => fail(`no <GhostCursor> at ${values.url}`));
-  await page.waitForTimeout(500);
+  // 1. Record. Scrolling is instant: on a page with scroll-behavior: smooth,
+  // the target would still be moving when the script aims at it.
+  async function recordTake() {
+    const page = await context.newPage();
+    page.on("pageerror", (e) => errors.push(e.message));
+    const recordUrl = new URL(values.url!);
+    recordUrl.searchParams.set("record", "");
+    await page.goto(recordUrl.toString());
+    await page.waitForSelector(".gc-root", { timeout: 20_000 }).catch(() => fail(`no <GhostCursor> at ${values.url}`));
+    await page.waitForTimeout(500);
 
-  const root = await findRoot(page);
-  const stage = root.locator(":scope > .gc-stage");
-  await root.evaluate((el) => el.scrollIntoView({ block: "center" }));
-  await page.waitForTimeout(400);
+    const root = await findRoot(page);
+    const stage = root.locator(":scope > .gc-stage");
+    await root.evaluate((el) => el.scrollIntoView({ block: "center", behavior: "instant" }));
+    await page.waitForTimeout(400);
 
-  await clickPanel(page, root, "gc-record", false);
-  await page.waitForTimeout(350);
-  const initial = await readState(root);
-  let reacted = false;
+    await clickPanel(page, root, "gc-record", false);
+    await page.waitForTimeout(350);
+    if ((await root.locator(":scope > .gc-recorder").getAttribute("data-status")) !== "recording") {
+      fail("pressing Record didn't start a take. Is something covering the recorder's buttons?");
+    }
+    const initial = await readState(root);
+    let reacted = false;
 
-  for (const [i, step] of steps.entries()) {
-    console.log(`  ${i + 1}/${steps.length}  ${rawSteps[i]}`);
-    await perform(page, stage, step, i === steps.length - 1);
-    if ((await readState(root)) !== initial) reacted = true;
+    for (const [i, step] of steps.entries()) {
+      console.log(`  ${i + 1}/${steps.length}  ${rawSteps[i]}`);
+      await perform(page, stage, step, i === steps.length - 1);
+      if ((await readState(root)) !== initial) reacted = true;
+    }
+
+    // Rest inside the box, so the final state includes whatever the pointer is hovering.
+    await sleep(Math.max(0, lastInput + SETTLE - Date.now()));
+    const final = await readState(root);
+    const status = await root.locator(":scope > .gc-recorder").getAttribute("data-status");
+    if (status !== "recording") fail("the recorder stopped during the take. Did the page reload?");
+    await clickPanel(page, root, "gc-stop");
+    await page.waitForTimeout(250);
+    await clickPanel(page, root, "gc-copy");
+    await page.waitForTimeout(250);
+    const json = await page.evaluate(() => (window as unknown as { __ghostCursorTake?: string }).__ghostCursorTake);
+    await page.close();
+    return { initial, final, reacted, json };
   }
+
   if (lastStep.kind === "wait" && 600 + lastStep.ms > SETTLE) {
     console.warn(`! the final wait is capped: the state is checked ${SETTLE}ms after the last input`);
   }
-
-  // Rest inside the box, so the final state includes whatever the pointer is hovering.
-  await sleep(Math.max(0, lastInput + SETTLE - Date.now()));
-  const final = await readState(root);
-  await clickPanel(page, root, "gc-stop");
-  await page.waitForTimeout(250);
-  await clickPanel(page, root, "gc-copy");
-  await page.waitForTimeout(250);
-
-  const json = await page.evaluate(() => (window as unknown as { __ghostCursorTake?: string }).__ghostCursorTake);
+  const { initial, final, reacted, json } = await recordTake();
   if (!json) fail("the recorder produced no JSON. Did the take have any events inside the box?");
   const take = JSON.parse(json) as { events: [number, string][]; targets: string[] };
   const duration = take.events.at(-1)![0];
@@ -375,7 +386,6 @@ try {
   if (take.targets.some((t) => !t.startsWith("@"))) {
     console.warn("! some targets are CSS paths. Add data-ghost-id to them so the take survives markup changes.");
   }
-  await page.close();
 
   // 2. Verify: reload without ?record and let the replay run to its end.
   if (!values["no-verify"]) {
@@ -398,7 +408,7 @@ try {
       fail(`the page isn't playing the new take yet. Check that the demo imports ${values.out}.`);
     }
 
-    await replayRoot.evaluate((el) => el.scrollIntoView({ block: "center" }));
+    await replayRoot.evaluate((el) => el.scrollIntoView({ block: "center", behavior: "instant" }));
     await replay.mouse.move(1, 1);
     const replayInitial = await readState(replayRoot);
     const slider = replayRoot.locator(':scope > .gc-controls [role="slider"]');

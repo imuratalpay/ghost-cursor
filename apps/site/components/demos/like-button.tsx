@@ -13,7 +13,7 @@ export function LikeButton() {
         data-ghost-id="like"
         aria-pressed={liked}
         onClick={() => setLiked((l) => !l)}
-        className="inline-flex h-10 items-center gap-2 rounded-full bg-white pr-4 pl-3 text-[14px] font-medium text-neutral-700 shadow-[0_0_0_1px_rgb(0_0_0/0.08),0_1px_2px_rgb(0_0_0/0.06)] transition-[box-shadow,scale] duration-150 ease-out hover:shadow-[0_0_0_1px_rgb(0_0_0/0.14),0_1px_2px_rgb(0_0_0/0.08)] active:scale-[0.96]"
+        className="inline-flex h-10 items-center gap-2 rounded-full bg-surface pr-4 pl-3 text-[14px] font-medium text-fg-2 shadow-[0_0_0_1px_var(--line),var(--lift)] transition-[box-shadow,scale] duration-150 ease-out hover:shadow-[0_0_0_1px_var(--line-strong),var(--lift)] active:scale-[0.96]"
       >
         <IconSwap id={liked ? "on" : "off"}>
           <svg width="18" height="18" viewBox="0 0 18 18" aria-hidden>
@@ -26,6 +26,7 @@ export function LikeButton() {
             />
           </svg>
         </IconSwap>
+        <span className="sr-only">Like, </span>
         <span className="tabular-nums">{liked ? 42 : 41}</span>
       </button>
     </div>

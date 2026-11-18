@@ -19,17 +19,17 @@ export function CopyCommand({ command }: { command: string }) {
 
   return (
     <div className="flex h-full items-center justify-center px-6 font-sans">
-      <div className="flex h-12 w-full max-w-[400px] items-center gap-3 rounded-xl bg-white pr-2 pl-4 font-mono text-[13px] shadow-[0_0_0_1px_rgb(0_0_0/0.08),0_1px_2px_rgb(0_0_0/0.05)]">
-        <span className="text-neutral-400 select-none" aria-hidden>
+      <div className="flex h-12 w-full max-w-[400px] items-center gap-3 rounded-xl bg-surface pr-2 pl-4 font-mono text-[13px] shadow-[0_0_0_1px_var(--line),var(--lift)]">
+        <span className="text-fg-3 select-none" aria-hidden>
           $
         </span>
-        <span className="min-w-0 flex-1 truncate text-neutral-800">{command}</span>
+        <span className="min-w-0 flex-1 truncate text-fg-1">{command}</span>
         <button
           type="button"
           data-ghost-id="copy-command"
-          aria-label="Copy command"
+          aria-label={copied ? "Copied" : "Copy command"}
           onClick={copy}
-          className="relative grid size-8 flex-none place-items-center rounded-lg text-neutral-500 transition-[background-color,color,scale] duration-150 ease-out before:absolute before:-inset-1 hover:bg-neutral-100 hover:text-neutral-900 active:scale-[0.96]"
+          className="relative grid size-8 flex-none place-items-center rounded-lg text-fg-3 transition-[background-color,color,scale] duration-150 ease-out before:absolute before:-inset-1 hover:bg-tint hover:text-fg-1 active:scale-[0.96]"
         >
           <IconSwap id={copied ? "check" : "copy"}>
             {copied ? (
@@ -44,9 +44,6 @@ export function CopyCommand({ command }: { command: string }) {
             )}
           </IconSwap>
         </button>
-        <span className="sr-only" aria-live="polite">
-          {copied ? "Copied" : ""}
-        </span>
       </div>
     </div>
   );
