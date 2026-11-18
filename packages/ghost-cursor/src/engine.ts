@@ -101,7 +101,10 @@ export class Engine {
   private size: [number, number] = [0, 0];
   private stageRect = { left: 0, top: 0 };
   private pristine: string;
-  private gap = { reset: false, animate: false, faded: null as Animation | null, remounted: false };
+  /** hold → out (exit fade) → remounted (first frame, entry fade). Each stage runs once. */
+  private gap = { reset: false, animate: false, stage: "hold" as "hold" | "out" | "remounted" };
+  /** Every opacity animation on the content, so a handoff can stop them all at once. */
+  private fades: Animation[] = [];
 
   private raf = 0;
   private last = 0;
@@ -182,7 +185,7 @@ export class Engine {
       this.emit();
     }
     t = Math.max(0, Math.min(this.rec.duration, t));
-    this.finishGap();
+    this.settle();
     if (t < this.time || this.dirty || this.phase === "tail") this.reset();
     this.gate = null;
     this.measure();
@@ -213,7 +216,7 @@ export class Engine {
     this.destroyed = true;
     cancelAnimationFrame(this.raf);
     clearTimeout(this.resumeTimer);
-    this.gap.faded?.cancel();
+    this.cancelFades();
     this.cleanup.forEach((fn) => fn());
     this.releasePress();
     this.hover.clear(0, 0);
@@ -334,47 +337,70 @@ export class Engine {
     this.releasePress();
     this.hover.clear(0, 0);
     const reset = this.dirty || signature(this.host.content) !== this.pristine;
-    this.gap = { reset, animate: reset && this.opts.fade, faded: null, remounted: false };
+    this.gap = { reset, animate: reset && this.opts.fade, stage: "hold" };
   }
 
   private stepGap() {
     const g = this.gap;
     const t = this.phaseTime;
-    if (g.animate && !g.faded && t >= 200) {
-      g.faded = this.host.content.animate([{ opacity: 1 }, { opacity: 0 }], {
-        duration: 160,
-        easing: "ease-in",
-        fill: "forwards",
-      });
+    if (g.stage === "hold" && t >= 200) {
+      g.stage = "out";
+      // Exit: quicker than the entry, and ease-in because the content is leaving.
+      if (g.animate) this.fade(1, 0, 160, "ease-in", "forwards");
     }
-    if (!g.remounted && t >= (g.animate ? 380 : 200)) this.remountForLoop();
-    if (t >= (g.animate ? 640 : 320)) this.startLead();
+    if (g.stage === "out" && t >= (g.animate ? 380 : 200)) this.remountForLoop();
+    if (g.stage === "remounted" && t >= (g.animate ? 640 : 320)) this.startLead();
   }
 
   private remountForLoop() {
     const g = this.gap;
-    g.remounted = true;
+    g.stage = "remounted";
     if (!g.reset) return;
     this.host.remount();
     this.dirty = false;
-    g.faded?.cancel();
-    g.faded = null;
-    if (g.animate) {
-      this.host.content.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 220, easing: EASE_OUT });
-    }
+    this.cancelFades();
+    if (g.animate) this.fade(0, 1, 220, EASE_OUT);
   }
 
-  /** Complete an in-flight gap now, so the reader never sees a faded-out component. */
-  private finishGap() {
-    if (this.phase !== "gap") return;
-    if (!this.gap.remounted) this.remountForLoop();
-    this.startLead();
+  private fade(from: number, to: number, duration: number, easing: string, fill?: FillMode) {
+    const animation = this.host.content.animate([{ opacity: from }, { opacity: to }], { duration, easing, fill });
+    this.fades.push(animation);
+    animation.finished
+      .then(() => {
+        if (!fill) this.fades = this.fades.filter((a) => a !== animation);
+      })
+      .catch(() => {});
+  }
+
+  private cancelFades() {
+    for (const a of this.fades) a.cancel();
+    this.fades = [];
+  }
+
+  /**
+   * Snap to a live, visible frame: an in-flight loop reset jumps to its end (first frame
+   * mounted, opacity 1, no fades running). Anything that hands the component to the reader
+   * or jumps the playhead goes through here, so it can never leave the content faded out.
+   */
+  private settle() {
+    if (this.phase === "gap") {
+      if (this.gap.stage !== "remounted" && this.gap.reset) {
+        this.host.remount();
+        this.dirty = false;
+      }
+      this.gap.stage = "remounted";
+      this.cancelFades();
+      this.startLead();
+    } else {
+      this.cancelFades();
+    }
   }
 
   private finishOnce() {
     this.beginGap();
     this.active = false;
     this.remountForLoop();
+    this.cancelFades();
     this.host.showGhost(false);
     this.reset(false);
     this.setPhase("lead");
@@ -586,7 +612,7 @@ export class Engine {
     }
     this.handoff = source;
     if (!this.active) return this.emit();
-    this.finishGap();
+    this.settle();
     // Interrupting a press leaves the recording's matching "up" orphaned.
     if (this.pressed) this.dirty = true;
     this.releasePress();

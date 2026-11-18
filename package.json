@@ -9,9 +9,12 @@
     "build": "npm run build -w @psychedelichip/ghost-cursor && npm run build -w site",
     "dev": "npm run build -w @psychedelichip/ghost-cursor && (npm run dev -w @psychedelichip/ghost-cursor & npm run dev -w site)",
     "lint": "npm run lint -w site",
-    "record": "tsx skills/ghost-cursor/scripts/record.ts"
+    "record": "tsx skills/ghost-cursor/scripts/record.ts",
+    "test": "npm run build && playwright test",
+    "test:e2e": "playwright test"
   },
   "devDependencies": {
+    "@playwright/test": "^1.65.1",
     "playwright": "^1.65.1",
     "tsx": "^4.23.15",
     "typescript": "^5"
