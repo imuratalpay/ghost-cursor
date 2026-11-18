@@ -1,6 +1,7 @@
 export const DOCS = [
   { href: "/docs", title: "Getting started" },
   { href: "/docs/recording", title: "Recording" },
+  { href: "/docs/agent-skill", title: "Agent skill" },
   { href: "/docs/api", title: "API" },
   { href: "/docs/examples", title: "Examples" },
 ] as const;

@@ -4,13 +4,12 @@ import { neighbors } from "@/components/docs-pages";
 import { FilterList } from "@/components/demos/filter-list";
 import { RecorderDemo } from "@/components/demos/recorder-demo";
 import { A, C, Code, Figure, H1, H2, P, PrevNext, Step } from "@/components/prose";
-import filterList from "@/recordings/filter-list.json";
+import filterListTake from "@/components/demos/filter-list.take.json";
 import recorderFlow from "@/recordings/recorder-flow.json";
 import recorderPreview from "@/recordings/recorder-preview.json";
 
 export const metadata: Metadata = { title: "Recording" };
 
-const AGENT_STEPS = [`click @filter-input`, `type "to"`, `hover @option-toast`, `click @option-tooltip`];
 
 export default function Recording() {
   return (
@@ -65,58 +64,19 @@ import recording from "./like-button.json";
 
       <H2 id="with-an-agent">With an agent</H2>
       <P>
-        The repository ships an agent skill in <C>skills/ghost-cursor</C>. Its script drives the same recorder through
-        Playwright and moves like a hand. Paths curve, speed changes from move to move, long moves overshoot by a few
-        pixels and correct, and every press has a pause before it. Any agent that can run a command can use it.
+        With a coding agent you don’t have to record by hand. Install the ghost-record skill and describe the take in
+        one sentence. The agent finds the component, records it with human-like input, checks the replay and prints the
+        snippet.
       </P>
-
-      <Step n={1} title="Name the targets">
-        <P>
-          The script aims at elements by <C>data-ghost-id</C>, so every element in the step list needs one. In the demo
-          below, each target has a dashed outline.
-        </P>
-        <Code>{`
-<input data-ghost-id="filter-input" />
-<li data-ghost-id={\`option-\${slug(item)}\`}>{item}</li>`}</Code>
-        <Figure caption="The take from step 2, with every data-ghost-id outlined.">
-          <GhostCursor recording={filterList} className="show-targets h-[300px]">
-            <FilterList />
-          </GhostCursor>
-        </Figure>
-      </Step>
-
-      <Step n={2} title="Run the script with a step list">
-        <P>
-          Each step is one argument: <C>hover</C>, <C>click</C>, <C>type</C>, <C>press</C>, <C>wait</C> or{" "}
-          <C>move</C>. With the dev server running, the script opens the page with <C>?record</C>, performs the steps
-          and writes the file. Then it reloads the page and checks that the replay ends in the same state as the take.
-        </P>
-        <Code>{`
-npm run record -- \\
-  --url http://localhost:3000/docs/recording \\
-  --out apps/site/recordings/filter-list.json \\
-${AGENT_STEPS.map((s) => `  '${s}'`).join(" \\\n")}`}</Code>
-        <Code title="Output">{`
-✓ recorded 4 steps → apps/site/recordings/filter-list.json  (60 events, 2 presses, 4.0s, 1.6 KB)
-  targets: @filter-input, @option-tooltip
-✓ replay reached the end and matches the take's final state`}</Code>
-        <Figure
-          caption={
-            <>
-              What those four steps produced. The typing goes through real <C>keydown</C> and <C>input</C> events, so
-              the list filters itself.
-            </>
-          }
-        >
-          <GhostCursor recording={filterList} className="h-[300px]">
-            <FilterList />
-          </GhostCursor>
-        </Figure>
-        <P>
-          Every demo on this site was recorded this way except the sort menu, which I recorded by hand. The{" "}
-          <A href="/docs/examples">examples</A> show four of them.
-        </P>
-      </Step>
+      <Code>{`/ghost-record filter list: type "to", then pick Tooltip`}</Code>
+      <Figure caption="Recorded by ghost-record from that sentence. Every element it aimed at has a dashed outline.">
+        <GhostCursor recording={filterListTake} className="show-targets h-[300px]">
+          <FilterList />
+        </GhostCursor>
+      </Figure>
+      <P>
+        <A href="/docs/agent-skill">Agent skill</A> covers the install, what the script does, and its defaults.
+      </P>
 
       <PrevNext {...neighbors("/docs/recording")} />
     </>

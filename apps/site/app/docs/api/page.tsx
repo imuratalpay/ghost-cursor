@@ -16,7 +16,10 @@ export default function Api() {
       </P>
 
       <H2 id="ghost-cursor">GhostCursor</H2>
-      <P>Use it for every demo you publish. You never need a second component to make a take.</P>
+      <P>
+        Use it for every demo you publish. You never need a second component to make a take. <C>GhostReplay</C> is
+        the same component under another name; the agent skill’s snippets use it.
+      </P>
       <Table
         head={["Prop", "Type", "Default", "Description"]}
         rows={[
