@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "description": "Live, replayable React component demos. A ghost cursor replays a recording with real DOM events and steps aside when the reader reaches for the component.",
   "license": "MIT",
-  "homepage": "https://ghost-cursor-seven.vercel.app",
+  "homepage": "https://ghost-cursor.muratalpay.me",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/imuratalpay/ghost-cursor.git",

@@ -31,6 +31,7 @@ const geistMono = localFont({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://ghost-cursor.muratalpay.me"),
   title: { default: "ghost-cursor", template: "%s · ghost-cursor" },
   description:
     "A React component that replays a recording over your real component, with real DOM events, and steps aside when the reader reaches for it.",

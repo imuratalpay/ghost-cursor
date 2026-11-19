@@ -14,7 +14,7 @@ export const metadata: Metadata = {
 /** The same Markdown agents get from /docs/agents.md, with commands pointing at this host. */
 async function Body() {
   const h = await headers();
-  const host = h.get("x-forwarded-host") ?? h.get("host") ?? "ghost-cursor-seven.vercel.app";
+  const host = h.get("x-forwarded-host") ?? h.get("host") ?? "ghost-cursor.muratalpay.me";
   const proto = h.get("x-forwarded-proto") ?? (host.startsWith("localhost") ? "http" : "https");
   const html = marked.parse(render("agents", `${proto}://${host}`), { async: false });
   return <div className="md-prose" dangerouslySetInnerHTML={{ __html: html }} />;

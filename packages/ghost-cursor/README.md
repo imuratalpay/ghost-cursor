@@ -49,7 +49,7 @@ Put `data-ghost-id` on the elements the cursor clicks, so recordings refer to th
 
 ## With a coding agent
 
-Tell your agent: "Read https://ghost-cursor-seven.vercel.app/docs and record this component's interaction." Agents read the steps from `/llms.txt` or `/docs/agents.md`: they record a take, check that it replays, and print the embed snippet.
+Tell your agent: "Read https://ghost-cursor.muratalpay.me/docs and record this component's interaction." Agents read the steps from `/llms.txt` or `/docs/agents.md`: they record a take, check that it replays, and print the embed snippet.
 
 ## Hover and press states
 

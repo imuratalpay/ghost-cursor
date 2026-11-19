@@ -12,7 +12,7 @@ export const metadata: Metadata = {
   alternates: { types: { "text/markdown": "/docs.md" } },
 };
 
-const SENTENCE = "Read https://ghost-cursor-seven.vercel.app/docs and record this component’s interaction.";
+const SENTENCE = "Read https://ghost-cursor.muratalpay.me/docs and record this component’s interaction.";
 
 const INSTALL = `
 /* app/globals.css */
