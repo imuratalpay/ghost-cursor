@@ -272,8 +272,8 @@ async function createStage(appDir, exp, take) {
     const props = values.props ? `{...(${values.props})}` : "";
     await mkdir(dir, { recursive: true });
     await writeFile(join(dir, "page.tsx"), `// Temporary route made by ghost-record. It deletes this folder when it finishes.
-import { GhostCursor } from "@psychedelichip/ghost-cursor";
-${hasStyles ? "" : 'import "@psychedelichip/ghost-cursor/styles.css";\n'}${imp}
+import { GhostCursor } from "@imuratalpay/ghost-cursor";
+${hasStyles ? "" : 'import "@imuratalpay/ghost-cursor/styles.css";\n'}${imp}
 import take from "${spec(take)}";
 
 export default function GhostStage() {
@@ -746,7 +746,7 @@ console.log(`
 
 ${where}
 
-import { GhostReplay } from "@psychedelichip/ghost-cursor";
+import { GhostReplay } from "@imuratalpay/ghost-cursor";
 ${exp.isDefault ? `import ${exp.name}` : `import { ${exp.name} }`} from "${importPath(COMPONENT)}";
 import ${takeVar} from "${importPath(OUT, true)}";
 

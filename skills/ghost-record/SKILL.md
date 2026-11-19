@@ -32,7 +32,7 @@ Read the component, then map each verb in the sentence to one step. Aim at eleme
 The project needs the package and Playwright. Check `package.json` first and install only what's missing:
 
 ```bash
-npm i @psychedelichip/ghost-cursor motion
+npm i @imuratalpay/ghost-cursor motion
 npm i -D playwright && npx playwright install chromium
 ```
 

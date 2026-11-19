@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Suspense } from "react";
-import { GhostReplay } from "@psychedelichip/ghost-cursor";
+import { GhostReplay } from "@imuratalpay/ghost-cursor";
 import { SortMenu } from "@/components/demos/sort-menu";
 import { InstallCommand } from "@/components/install-command";
 import { A, C, Code, Figure, H2, P, Step } from "@/components/prose";
@@ -18,10 +18,10 @@ const SENTENCE = "Read https://ghost-cursor-seven.vercel.app/docs and record thi
 const INSTALL = `
 /* app/globals.css */
 @import "tailwindcss";
-@import "@psychedelichip/ghost-cursor/styles.css" layer(components);`;
+@import "@imuratalpay/ghost-cursor/styles.css" layer(components);`;
 
 const WRAP = `
-import { GhostReplay } from "@psychedelichip/ghost-cursor";
+import { GhostReplay } from "@imuratalpay/ghost-cursor";
 import take from "./sort-menu.json";
 <GhostReplay recording={take} style={{ height: 320 }}>
   <SortMenu />
@@ -71,7 +71,7 @@ export default function Home() {
 
         <Step n={1} title="Install">
           <P>npm installs Motion alongside it as a peer dependency. Motion drives the cursor’s spring.</P>
-          <InstallCommand command="npm i @psychedelichip/ghost-cursor" />
+          <InstallCommand command="npm i @imuratalpay/ghost-cursor" />
           <Code>{INSTALL}</Code>
         </Step>
 

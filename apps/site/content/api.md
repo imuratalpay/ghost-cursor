@@ -1,6 +1,6 @@
 # API
 
-Three components and one JSON format, all from `@psychedelichip/ghost-cursor`.
+Three components and one JSON format, all from `@imuratalpay/ghost-cursor`.
 
 ## GhostReplay (also GhostCursor)
 

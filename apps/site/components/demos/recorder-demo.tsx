@@ -1,6 +1,6 @@
 "use client";
 
-import { Recorder } from "@psychedelichip/ghost-cursor";
+import { Recorder } from "@imuratalpay/ghost-cursor";
 import { LikeButton } from "./like-button";
 
 /** The real recorder around a small component, so a GhostCursor can replay someone using it. */

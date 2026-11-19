@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { GhostCursor } from "@psychedelichip/ghost-cursor";
+import { GhostCursor } from "@imuratalpay/ghost-cursor";
 import { neighbors } from "@/components/docs-pages";
 import { FilterList } from "@/components/demos/filter-list";
 import { RecorderDemo } from "@/components/demos/recorder-demo";

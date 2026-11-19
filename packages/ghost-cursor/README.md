@@ -1,11 +1,11 @@
-# @psychedelichip/ghost-cursor
+# @imuratalpay/ghost-cursor
 
 Live, replayable component demos for writing about interfaces. A ghost cursor replays a recording over your real component and dispatches real DOM events, so the component reacts as it would to a mouse. When the reader moves into the box, the ghost fades out and the component is theirs.
 
 ## Install
 
 ```bash
-npm i @psychedelichip/ghost-cursor motion
+npm i @imuratalpay/ghost-cursor motion
 ```
 
 React 18 or later and Motion are peer dependencies. Until the package is on npm, install the tarball the docs site serves: `npm i https://ghost-cursor-seven.vercel.app/ghost-cursor.tgz motion`.
@@ -14,18 +14,18 @@ Load the stylesheet once:
 
 ```css
 /* With Tailwind CSS v4, in the components layer so your classes win */
-@import "@psychedelichip/ghost-cursor/styles.css" layer(components);
+@import "@imuratalpay/ghost-cursor/styles.css" layer(components);
 ```
 
 ```ts
 // Without Tailwind, in your root layout
-import "@psychedelichip/ghost-cursor/styles.css";
+import "@imuratalpay/ghost-cursor/styles.css";
 ```
 
 ## Example
 
 ```tsx
-import { GhostCursor } from "@psychedelichip/ghost-cursor";
+import { GhostCursor } from "@imuratalpay/ghost-cursor";
 import recording from "./sort-menu.json";
 
 export function SortMenuDemo() {

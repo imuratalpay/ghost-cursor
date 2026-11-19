@@ -69,7 +69,7 @@ export default function Api() {
         so you don’t need a <C>NODE_ENV</C> check. It takes the same props as <C>{"<Recorder>"}</C>.
       </P>
       <Code>{`
-import { DevRecorder } from "@psychedelichip/ghost-cursor";
+import { DevRecorder } from "@imuratalpay/ghost-cursor";
 
 <DevRecorder style={{ height: 320 }}>
   <LikeButton />

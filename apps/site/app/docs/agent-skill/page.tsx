@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { GhostReplay } from "@psychedelichip/ghost-cursor";
+import { GhostReplay } from "@imuratalpay/ghost-cursor";
 import { neighbors } from "@/components/docs-pages";
 import { FilterList } from "@/components/demos/filter-list";
 import filterListTake from "@/components/demos/filter-list.take.json";
@@ -21,7 +21,7 @@ const OUTPUT = `
 
 apps/site/app/docs/examples/page.tsx:54 already embeds FilterList. Swap its recording for the new take, or paste this where you want another copy:
 
-import { GhostReplay } from "@psychedelichip/ghost-cursor";
+import { GhostReplay } from "@imuratalpay/ghost-cursor";
 import { FilterList } from "@/components/demos/filter-list";
 import filterListTake from "@/components/demos/filter-list.take.json";
 
@@ -50,7 +50,7 @@ cp -r skills/ghost-record ~/.claude/skills/    # Claude Code
 npm i -D playwright tsx
 npx playwright install chromium`}</Code>
       <P>
-        It works in Next.js projects that use <C>@psychedelichip/ghost-cursor</C>. In other setups, give it a page
+        It works in Next.js projects that use <C>@imuratalpay/ghost-cursor</C>. In other setups, give it a page
         that already renders the component inside a <C>{"<GhostReplay>"}</C>.
       </P>
 

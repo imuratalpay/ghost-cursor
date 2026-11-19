@@ -13,9 +13,9 @@ curl -fsSL {{origin}}/skills/ghost-record/scripts/ghost-record.mjs -o .claude/sk
 npm i -D playwright && npx playwright install chromium
 ```
 
-For Cursor, use `.cursor/skills/ghost-record` instead. Once the repository is public, `npx skills add psychedelichip/ghost-cursor` installs the same folder.
+For Cursor, use `.cursor/skills/ghost-record` instead. Once the repository is public, `npx skills add imuratalpay/ghost-cursor` installs the same folder.
 
-It works in Next.js projects that use `@psychedelichip/ghost-cursor`. In other setups, pass `--url` to a page that already renders the component inside a `<GhostReplay>`.
+It works in Next.js projects that use `@imuratalpay/ghost-cursor`. In other setups, pass `--url` to a page that already renders the component inside a `<GhostReplay>`.
 
 ## Use it
 

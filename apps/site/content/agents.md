@@ -12,10 +12,10 @@ Work from the project root. Read `package.json` before installing anything, and 
 ## Install
 
 ```bash
-npm i @psychedelichip/ghost-cursor motion
+npm i @imuratalpay/ghost-cursor motion
 ```
 
-If npm answers 404 for `@psychedelichip/ghost-cursor`, the package isn't on npm yet. Install the tarball this site serves instead:
+If npm answers 404 for `@imuratalpay/ghost-cursor`, the package isn't on npm yet. Install the tarball this site serves instead:
 
 ```bash
 npm i {{origin}}/ghost-cursor.tgz motion
@@ -24,13 +24,13 @@ npm i {{origin}}/ghost-cursor.tgz motion
 Load the stylesheet once. With Tailwind CSS v4, add this line to the global CSS file, directly after `@import "tailwindcss";`:
 
 ```css
-@import "@psychedelichip/ghost-cursor/styles.css" layer(components);
+@import "@imuratalpay/ghost-cursor/styles.css" layer(components);
 ```
 
 Without Tailwind, import it in the root layout instead:
 
 ```ts
-import "@psychedelichip/ghost-cursor/styles.css";
+import "@imuratalpay/ghost-cursor/styles.css";
 ```
 
 ## A. Record a take
@@ -76,7 +76,7 @@ The result is `<component>.take.json` next to the component, checked by replayin
 5. Done means the output ends with `✓ replay matches the live run` and names the saved take. Show the user the printed snippet. Paste it into a page only if they asked for the demo on a page:
 
    ```tsx
-   import { GhostReplay } from "@psychedelichip/ghost-cursor";
+   import { GhostReplay } from "@imuratalpay/ghost-cursor";
    import { LikeShare } from "@/components/like-share";
    import likeShareTake from "@/components/like-share.take.json";
 
@@ -103,7 +103,7 @@ The result is a Record, Stop, Copy recording, Preview toolbar under the componen
 2. Find where the component renders. Wrap it with `<DevRecorder>` there. It's a client component, so it works inside a server component page as is:
 
    ```tsx
-   import { DevRecorder } from "@psychedelichip/ghost-cursor";
+   import { DevRecorder } from "@imuratalpay/ghost-cursor";
    import { LikeShare } from "@/components/like-share";
 
    <DevRecorder style={{ height: 320 }}>

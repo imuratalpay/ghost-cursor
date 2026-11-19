@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { GhostCursor } from "@psychedelichip/ghost-cursor";
+import { GhostCursor } from "@imuratalpay/ghost-cursor";
 import { neighbors } from "@/components/docs-pages";
 import { CopyCommand } from "@/components/demos/copy-command";
 import { RecorderDemo } from "@/components/demos/recorder-demo";
@@ -14,7 +14,7 @@ export const metadata: Metadata = {
   alternates: { types: { "text/markdown": "/docs.md" } },
 };
 
-const INSTALL = "npm i @psychedelichip/ghost-cursor";
+const INSTALL = "npm i @imuratalpay/ghost-cursor";
 
 export default function GettingStarted() {
   return (
@@ -43,9 +43,9 @@ export default function GettingStarted() {
         </P>
         <Code title="app/globals.css">{`
 @import "tailwindcss";
-@import "@psychedelichip/ghost-cursor/styles.css" layer(components);`}</Code>
+@import "@imuratalpay/ghost-cursor/styles.css" layer(components);`}</Code>
         <P>
-          Without Tailwind, import <C>@psychedelichip/ghost-cursor/styles.css</C> in your root layout.
+          Without Tailwind, import <C>@imuratalpay/ghost-cursor/styles.css</C> in your root layout.
         </P>
         <Figure caption="The ghost copies the install command. Move into the box to press the button yourself.">
           <GhostCursor recording={copyCommand} className="h-[200px] min-h-0">
@@ -61,7 +61,7 @@ export default function GettingStarted() {
           markup around them changes.
         </P>
         <Code>{`
-import { GhostCursor } from "@psychedelichip/ghost-cursor";
+import { GhostCursor } from "@imuratalpay/ghost-cursor";
 import recording from "./sort-menu.json";
 
 export function Demo() {

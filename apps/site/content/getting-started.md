@@ -9,7 +9,7 @@ Agents: {{origin}}/docs/agents.md has the exact steps for recording a take and f
 npm installs Motion alongside it as a peer dependency. Motion drives the cursor's spring. You need React 18 or later.
 
 ```bash
-npm i @psychedelichip/ghost-cursor
+npm i @imuratalpay/ghost-cursor
 ```
 
 Until the package is on npm, install the tarball this site serves: `npm i {{origin}}/ghost-cursor.tgz motion`.
@@ -19,17 +19,17 @@ Load the stylesheet once. With Tailwind CSS v4, import it into the components la
 ```css
 /* app/globals.css */
 @import "tailwindcss";
-@import "@psychedelichip/ghost-cursor/styles.css" layer(components);
+@import "@imuratalpay/ghost-cursor/styles.css" layer(components);
 ```
 
-Without Tailwind, import `@psychedelichip/ghost-cursor/styles.css` in your root layout.
+Without Tailwind, import `@imuratalpay/ghost-cursor/styles.css` in your root layout.
 
 ## 2. Wrap a component
 
 Put the component inside `<GhostReplay>` (also exported as `<GhostCursor>`) and give the box a height. Add `data-ghost-id` to every element the cursor clicks. The recording finds elements by that name, so it keeps working when the markup around them changes.
 
 ```tsx
-import { GhostReplay } from "@psychedelichip/ghost-cursor";
+import { GhostReplay } from "@imuratalpay/ghost-cursor";
 import recording from "./sort-menu.json";
 
 export function Demo() {

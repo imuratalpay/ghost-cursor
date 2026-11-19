@@ -1,6 +1,6 @@
 @import "tailwindcss";
 /* In the components layer, so utilities passed through className win over the library's defaults. */
-@import "@psychedelichip/ghost-cursor/styles.css" layer(components);
+@import "@imuratalpay/ghost-cursor/styles.css" layer(components);
 
 /*
  * The ghost can't trigger :hover, :active or :focus, so it mirrors them as attributes.

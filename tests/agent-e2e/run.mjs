@@ -92,7 +92,7 @@ async function docsSite() {
 
 async function template() {
   const dir = join(WORK, "template");
-  if (existsSync(join(dir, "node_modules/@psychedelichip/ghost-cursor"))) return dir;
+  if (existsSync(join(dir, "node_modules/@imuratalpay/ghost-cursor"))) return dir;
   await rm(dir, { recursive: true, force: true });
   await mkdir(WORK, { recursive: true });
   log("creating a fresh Next.js app…");
@@ -202,14 +202,14 @@ async function runScripted(dir, intent, docs, out) {
     }
   };
   const pkg = JSON.parse(await readFile(join(dir, "package.json"), "utf8"));
-  if (!pkg.dependencies?.["@psychedelichip/ghost-cursor"]) run(`npm i ${origin}/ghost-cursor.tgz motion`);
+  if (!pkg.dependencies?.["@imuratalpay/ghost-cursor"]) run(`npm i ${origin}/ghost-cursor.tgz motion`);
   const css = join(dir, "app/globals.css");
   const globals = await readFile(css, "utf8");
   if (!globals.includes("ghost-cursor/styles.css")) {
     steps.push("Edit: app/globals.css (stylesheet in the components layer)");
     await writeFile(
       css,
-      globals.replace('@import "tailwindcss";', '@import "tailwindcss";\n@import "@psychedelichip/ghost-cursor/styles.css" layer(components);'),
+      globals.replace('@import "tailwindcss";', '@import "tailwindcss";\n@import "@imuratalpay/ghost-cursor/styles.css" layer(components);'),
     );
   }
   let output = "";
@@ -227,7 +227,7 @@ async function runScripted(dir, intent, docs, out) {
     steps.push("Edit: app/page.tsx (wrap <LikeShare /> in <DevRecorder>)");
     await writeFile(
       page,
-      `import { DevRecorder } from "@psychedelichip/ghost-cursor";\n` +
+      `import { DevRecorder } from "@imuratalpay/ghost-cursor";\n` +
         src.replace("<LikeShare />", "<DevRecorder style={{ height: 320 }}>\n        <LikeShare />\n      </DevRecorder>"),
     );
     output = run("npm run build");
@@ -307,8 +307,8 @@ async function checkA(dir, browser, since) {
   await mkdir(check, { recursive: true });
   await writeFile(
     join(check, "page.tsx"),
-    `import { GhostReplay } from "@psychedelichip/ghost-cursor";
-import "@psychedelichip/ghost-cursor/styles.css";
+    `import { GhostReplay } from "@imuratalpay/ghost-cursor";
+import "@imuratalpay/ghost-cursor/styles.css";
 import { LikeShare } from "@/components/like-share";
 import take from "${relative(check, take).split("\\").join("/")}";
 
