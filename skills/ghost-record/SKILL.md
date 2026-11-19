@@ -1,6 +1,6 @@
 ---
 name: ghost-record
-description: One sentence in, a verified ghost-cursor demo out. Use when the user types /ghost-record or asks to record, demo or animate a React component with a ghost cursor ("record the like button: hover, then click it"). Find the component, turn the sentence into steps, run one script. It starts the dev server if needed, records with human-like input, replays the take to check it, saves <component>.take.json next to the component, prints a <GhostReplay> snippet, and cleans up. Never ask the user anything unless no component matches.
+description: 'One sentence in, a verified ghost-cursor demo out. Use when the user types /ghost-record or asks to record, demo or animate a React component with a ghost cursor ("record the like button: hover, then click it"). Find the component, turn the sentence into steps, run one script. It starts the dev server if needed, records with human-like input, replays the take to check it, saves <component>.take.json next to the component, prints a <GhostReplay> snippet, and cleans up. Never ask the user anything unless no component matches.'
 ---
 
 # ghost-record
