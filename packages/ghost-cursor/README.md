@@ -8,7 +8,7 @@ Live, replayable component demos for writing about interfaces. A ghost cursor re
 npm i @imuratalpay/ghost-cursor motion
 ```
 
-React 18 or later and Motion are peer dependencies. Until the package is on npm, install the tarball the docs site serves: `npm i https://ghost-cursor-seven.vercel.app/ghost-cursor.tgz motion`.
+React 18 or later and Motion are peer dependencies.
 
 Load the stylesheet once:
 

@@ -12,8 +12,6 @@ npm installs Motion alongside it as a peer dependency. Motion drives the cursor'
 npm i @imuratalpay/ghost-cursor
 ```
 
-Until the package is on npm, install the tarball this site serves: `npm i {{origin}}/ghost-cursor.tgz motion`.
-
 Load the stylesheet once. With Tailwind CSS v4, import it into the components layer, so classes you pass to the box override its defaults:
 
 ```css
