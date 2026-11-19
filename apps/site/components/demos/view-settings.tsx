@@ -65,7 +65,7 @@ export function ViewSettings() {
                   tabIndex={checked ? 0 : -1}
                   data-ghost-id={`layout-${l.id}`}
                   onClick={(e) => select(i, e.detail === 0)}
-                  className="relative isolate h-7 rounded-lg px-3 text-[13px] font-medium text-fg-3 transition-colors duration-150 ease-out hover:text-fg-1 aria-checked:text-fg-1"
+                  className="relative isolate h-7 rounded-lg px-3 text-[13px] font-medium text-fg-3 transition-colors duration-(--duration-quick) ease-out hover:text-fg-1 aria-checked:text-fg-1"
                 >
                   {checked && (
                     <motion.span
@@ -89,7 +89,7 @@ export function ViewSettings() {
             aria-checked={compact}
             data-ghost-id="compact"
             onClick={() => setCompact((c) => !c)}
-            className="relative h-[22px] w-9 rounded-full bg-track transition-[background-color,scale] duration-150 ease-out active:scale-[0.95] aria-checked:bg-switch-on"
+            className="relative h-[22px] w-9 rounded-full bg-track transition-[background-color,scale] duration-(--duration-quick) ease-out active:scale-[0.95] aria-checked:bg-switch-on"
           >
             <motion.span
               initial={false}

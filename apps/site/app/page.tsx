@@ -5,7 +5,6 @@ import { SortMenu } from "@/components/demos/sort-menu";
 import { InstallCommand } from "@/components/install-command";
 import { A, C, Code, Figure, H2, P, Step } from "@/components/prose";
 import { SiteFooter } from "@/components/site-footer";
-import { SiteHeader } from "@/components/site-header";
 import { TellAgent } from "@/components/tell-agent";
 import sortMenu from "@/recordings/sort-menu.json";
 
@@ -37,8 +36,7 @@ npm run dev
 export default function Home() {
   return (
     <div className="mx-auto max-w-[684px] px-5 pb-24">
-      <SiteHeader />
-      <main>
+      <main id="content">
         <h1 className="mt-16 text-[48px] leading-[48px] font-display tracking-[-0.022em] sm:mt-24">
           A cursor that demos your component, then gets out of the way.
         </h1>

@@ -13,7 +13,7 @@ export function LikeButton() {
         data-ghost-id="like"
         aria-pressed={liked}
         onClick={() => setLiked((l) => !l)}
-        className="inline-flex h-10 items-center gap-2 rounded-full bg-surface pr-4 pl-3 text-[14px] font-medium text-fg-2 shadow-[0_0_0_1px_var(--line),var(--lift)] transition-[box-shadow,scale] duration-150 ease-out hover:shadow-[0_0_0_1px_var(--line-strong),var(--lift)] active:scale-[0.96]"
+        className="inline-flex h-10 items-center gap-2 rounded-full bg-surface pr-4 pl-3 text-[14px] font-medium text-fg-2 shadow-[0_0_0_1px_var(--line),var(--lift)] transition-[box-shadow,scale] duration-(--duration-quick) ease-out hover:shadow-[0_0_0_1px_var(--line-strong),var(--lift)] active:scale-[0.96]"
       >
         <IconSwap id={liked ? "on" : "off"}>
           <svg width="18" height="18" viewBox="0 0 18 18" aria-hidden>

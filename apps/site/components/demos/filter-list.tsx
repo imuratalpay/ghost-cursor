@@ -44,7 +44,7 @@ export function FilterList() {
         role="search"
         aria-label="Filter components"
         onSubmit={(e) => e.preventDefault()}
-        className="w-full max-w-[340px] overflow-hidden rounded-xl bg-surface shadow-[0_0_0_1px_var(--line),var(--lift)] transition-shadow duration-150 ease-out focus-within:shadow-[0_0_0_1px_var(--fg-3),0_0_0_4px_var(--tint)]">
+        className="w-full max-w-[340px] overflow-hidden rounded-xl bg-surface shadow-[0_0_0_1px_var(--line),var(--lift)] transition-shadow duration-(--duration-quick) ease-out focus-within:shadow-[0_0_0_1px_var(--fg-3),0_0_0_4px_var(--tint)]">
         <label className="flex h-11 items-center gap-2.5 border-b border-line px-3.5">
           <svg width="15" height="15" viewBox="0 0 16 16" fill="none" aria-hidden className="flex-none text-fg-3">
             <circle cx="7" cy="7" r="4.5" stroke="currentColor" strokeWidth="1.5" />

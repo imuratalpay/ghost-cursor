@@ -29,7 +29,7 @@ export function CopyCommand({ command }: { command: string }) {
           data-ghost-id="copy-command"
           aria-label={copied ? "Copied" : "Copy command"}
           onClick={copy}
-          className="relative grid size-8 flex-none place-items-center rounded-lg text-fg-3 transition-[background-color,color,scale] duration-150 ease-out before:absolute before:-inset-1 hover:bg-tint hover:text-fg-1 active:scale-[0.96]"
+          className="relative grid size-8 flex-none place-items-center rounded-lg text-fg-3 transition-[background-color,color,scale] duration-(--duration-quick) ease-out before:absolute before:-inset-1 hover:bg-tint hover:text-fg-1 active:scale-[0.96]"
         >
           <IconSwap id={copied ? "check" : "copy"}>
             {copied ? (

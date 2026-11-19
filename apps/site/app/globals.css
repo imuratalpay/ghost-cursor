@@ -55,7 +55,8 @@
 
   --surface: #ffffff;
   --stage: #f4f4f4;
-  --code: #f4f4f4;
+  /* Code wells are the same surface as stages; one grey, two names (ghost-cursor uses both). */
+  --code: var(--stage);
   --line: rgb(0 0 0 / 0.08);
   --line-strong: rgb(0 0 0 / 0.15);
   --tint: rgb(0 0 0 / 0.045);
@@ -66,6 +67,16 @@
   --tile-b: #e1e1e1;
   --lift: 0 1px 2px rgb(0 0 0 / 0.05);
   --pop: 0 8px 24px -6px rgb(0 0 0 / 0.16);
+  --scrim: rgb(0 0 0 / 0.2);
+
+  /* Dividers: 0.5px on high-density screens, 1px elsewhere. */
+  --hairline: 1px;
+}
+
+@media (min-resolution: 2dppx) {
+  :root {
+    --hairline: 0.5px;
+  }
 }
 
 @media (prefers-color-scheme: dark) {
@@ -79,7 +90,6 @@
 
     --surface: #1d1d1d;
     --stage: #171717;
-    --code: #181818;
     --line: rgb(255 255 255 / 0.08);
     --line-strong: rgb(255 255 255 / 0.15);
     --tint: rgb(255 255 255 / 0.06);
@@ -90,7 +100,72 @@
     --tile-b: #2d2d2d;
     /* Shadows don't read on dark surfaces; the 1px line carries the edge instead. */
     --lift: 0 0 #0000;
-    --pop: 0 8px 24px -6px rgb(0 0 0 / 0.6);
+    --pop: 0 0 #0000;
+    --scrim: rgb(0 0 0 / 0.5);
+  }
+}
+
+/*
+ * Motion tokens: the one set every animation reads. The scale is transitions.dev's; the curves are
+ * the site's own. Pick a token by what the motion is for (the comments), not by the nearest number.
+ * Nothing else in the codebase writes a duration or a curve. Opens are slower than closes.
+ *
+ * Curves are in @theme, so Tailwind's ease-* utilities use them; durations are read with
+ * duration-(--duration-quick) and in TS through lib/motion.ts.
+ */
+@theme static {
+  /* Entering and leaving, hover color, a sliding indicator. */
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  /* Something on screen moving or swapping in place: icon swap, text swap, the demo sweeps. */
+  --ease-in-out: cubic-bezier(0.645, 0.045, 0.355, 1);
+  /* The menu sheet only: a steep start for a long travel. */
+  --ease-drawer: cubic-bezier(0.32, 0.72, 0, 1);
+  /* Constant motion only: the marquee and progress that stands for time. */
+  --ease-linear: linear;
+}
+
+:root {
+  --duration-instant: 0ms; /* a discrete switch that still runs as an animation (the typed demo) */
+  --duration-quick: 150ms; /* hover and press, dialog close, accordion close, tooltip appear, text swap */
+  --duration-fast: 250ms; /* dialog open, accordion open, icon swap, sliding indicator, hover-in, sheet close */
+  --duration-medium: 350ms; /* sheet open, hover-out */
+  --duration-settle: 500ms; /* a spring back after a stretch (the iOS rubber band) */
+
+  --distance-micro: 4px; /* text swap, accordion content */
+  --distance-nudge: 2px; /* an arrow leaning toward where it goes */
+
+  --scale-dialog: 0.96; /* dialog open and close */
+  --scale-press: 0.97; /* :active on buttons */
+  --scale-press-large: 0.98; /* :active on cards */
+  --scale-tooltip: 0.98; /* tooltip open */
+  --scale-icon-swap: 0.25; /* the icon that's leaving */
+
+  --marquee-duration: 60s; /* one loop of the prompt marquee */
+
+  /* Demo timelines: how the recorded runs replay, not UI feedback. */
+  --demo-lead: 600ms; /* before the before/after tile first sweeps */
+  --demo-sweep: 1400ms; /* one sweep of the before/after divider */
+  --demo-hold: 1000ms; /* a pause at each end of the sweep */
+  --demo-wipe: 900ms; /* a playground before ↔ after wipe */
+
+  /* Timers: how long the interface waits for intent or holds a state. Not motion, so reduced motion keeps them. */
+  --delay-hover-intent: 100ms; /* a decorative hover takes over after the mouse rests this long */
+  --delay-tooltip: 500ms; /* the first tooltip */
+  --delay-tooltip-warm: 300ms; /* later tooltips open at once within this window */
+  --hold-copied: 1500ms; /* the check after a copy */
+}
+
+/* Reduced motion is instant: every token goes to zero, so nothing that reads them moves. */
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --duration-quick: 0ms;
+    --duration-fast: 0ms;
+    --duration-medium: 0ms;
+    --duration-settle: 0ms;
+    --demo-lead: 0ms;
+    --demo-sweep: 0ms;
+    --demo-hold: 0ms;
+    --demo-wipe: 0ms;
   }
 }
 
@@ -118,6 +193,33 @@
   --font-weight-ui: 450;
   --font-weight-heading: 550;
   --font-weight-display: 590;
+
+  /* The type scale: type-taste's roles, each size with its line-height. */
+  --text-display: 48px;
+  --text-display--line-height: 48px;
+  --text-display--letter-spacing: -0.022em;
+  --text-title: 24px;
+  --text-title--line-height: 32px;
+  --text-title--letter-spacing: -0.3px;
+  --text-prose: 16px;
+  --text-prose--line-height: 26px;
+  --text-ui: 15px;
+  --text-ui--line-height: 24px;
+  --text-secondary: 14px;
+  --text-secondary--line-height: 22.75px;
+  --text-meta: 13px;
+  --text-meta--line-height: 21.125px;
+  --text-label: 12px;
+  --text-label--line-height: 16px;
+
+  /*
+   * One surface recipe. Raised: cards, pills and buttons. Well: code boxes, stages and fields.
+   * Overlay: dialogs. In dark, --lift and --pop are empty, so every recipe is the 1px ring alone.
+   */
+  --shadow-raised: 0 0 0 1px var(--line), var(--lift);
+  --shadow-raised-hover: 0 0 0 1px var(--line-strong), var(--lift);
+  --shadow-well: inset 0 0 0 1px var(--line);
+  --shadow-overlay: 0 0 0 1px var(--line), var(--pop);
 }
 
 /* The library's colors, mapped onto the site's tokens so demos follow the color scheme. */
@@ -139,11 +241,15 @@
 
 html {
   background: var(--bg);
+  /* Short and long pages keep the same content edge whether or not a scrollbar shows. */
+  scrollbar-gutter: stable;
   -webkit-text-size-adjust: 100%;
   -webkit-tap-highlight-color: transparent;
 }
 
 body {
+  /* Landscape phones put the notch on a side; everything inside pads past it. 0 elsewhere. */
+  padding-inline: env(safe-area-inset-left) env(safe-area-inset-right);
   font-family: var(--font-sans);
   font-feature-settings: "cv01", "ss03";
   font-synthesis: none;
@@ -234,7 +340,7 @@ time,
   text-decoration-thickness: 1px;
   text-underline-offset: 2px;
   text-decoration-color: var(--fg-5);
-  transition: text-decoration-color 150ms ease-out;
+  transition: text-decoration-color var(--duration-quick) var(--ease-out);
 }
 
 @media (hover: hover) and (pointer: fine) {
@@ -274,7 +380,7 @@ button,
 }
 
 [id] {
-  scroll-margin-top: 24px;
+  scroll-margin-top: 88px;
 }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -355,7 +461,7 @@ pre::-webkit-scrollbar-thumb {
   text-decoration-thickness: 1px;
   text-underline-offset: 2px;
   text-decoration-color: var(--fg-5);
-  transition: text-decoration-color 150ms ease-out;
+  transition: text-decoration-color var(--duration-quick) var(--ease-out);
 }
 
 @media (hover: hover) and (pointer: fine) {

@@ -97,7 +97,7 @@ export function SortMenu() {
             aria-expanded={open}
             aria-controls={open ? `${id}-menu` : undefined}
             onClick={(e) => (open ? close(false) : show(e.detail === 0))}
-            className="inline-flex h-8 items-center gap-1.5 rounded-lg bg-surface pr-2 pl-3 text-[13px] text-fg-3 shadow-[0_0_0_1px_var(--line),var(--lift)] transition-[box-shadow,scale] duration-150 ease-out hover:shadow-[0_0_0_1px_var(--line-strong),var(--lift)] active:scale-[0.97] aria-expanded:shadow-[0_0_0_1px_var(--line-strong),var(--lift)]"
+            className="inline-flex h-8 items-center gap-1.5 rounded-lg bg-surface pr-2 pl-3 text-[13px] text-fg-3 shadow-[0_0_0_1px_var(--line),var(--lift)] transition-[box-shadow,scale] duration-(--duration-quick) ease-out hover:shadow-[0_0_0_1px_var(--line-strong),var(--lift)] active:scale-[0.97] aria-expanded:shadow-[0_0_0_1px_var(--line-strong),var(--lift)]"
           >
             Sort: <span className="font-medium text-fg-1">{label}</span>
             <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden className="text-fg-3">

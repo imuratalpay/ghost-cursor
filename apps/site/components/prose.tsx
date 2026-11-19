@@ -111,7 +111,7 @@ export function PrevNext({ prev, next }: { prev?: PageLink; next?: PageLink }) {
       {prev ? (
         <Link href={prev.href} className="group -m-2 rounded-lg p-2">
           <span className="label block">Previous</span>
-          <span className="text-fg-1 transition-colors duration-150 ease-out group-hover:text-fg-3">{prev.title}</span>
+          <span className="text-fg-1 transition-colors duration-(--duration-quick) ease-out group-hover:text-fg-3">{prev.title}</span>
         </Link>
       ) : (
         <span />
@@ -119,7 +119,7 @@ export function PrevNext({ prev, next }: { prev?: PageLink; next?: PageLink }) {
       {next && (
         <Link href={next.href} className="group -m-2 rounded-lg p-2 text-right">
           <span className="label block">Next</span>
-          <span className="text-fg-1 transition-colors duration-150 ease-out group-hover:text-fg-3">{next.title}</span>
+          <span className="text-fg-1 transition-colors duration-(--duration-quick) ease-out group-hover:text-fg-3">{next.title}</span>
         </Link>
       )}
     </nav>
