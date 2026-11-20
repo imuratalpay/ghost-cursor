@@ -7,7 +7,7 @@ import { C, Code, Figure, H1, H2, P, PrevNext, Table } from "@/components/prose"
 
 export const metadata: Metadata = {
   title: "Agent skill",
-  alternates: { types: { "text/markdown": "/docs/agent-skill.md" } },
+  alternates: { canonical: "https://ghost-cursor.muratalpay.me/docs/agent-skill", types: { "text/markdown": "/docs/agent-skill.md" } },
 };
 
 const OUTPUT = `

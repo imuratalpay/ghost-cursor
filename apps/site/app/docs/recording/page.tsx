@@ -10,7 +10,7 @@ import recorderPreview from "@/recordings/recorder-preview.json";
 
 export const metadata: Metadata = {
   title: "Recording",
-  alternates: { types: { "text/markdown": "/docs/recording.md" } },
+  alternates: { canonical: "https://ghost-cursor.muratalpay.me/docs/recording", types: { "text/markdown": "/docs/recording.md" } },
 };
 
 

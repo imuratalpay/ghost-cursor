@@ -11,7 +11,7 @@ import sortMenu from "@/recordings/sort-menu.json";
 
 export const metadata: Metadata = {
   title: "Getting started",
-  alternates: { types: { "text/markdown": "/docs.md" } },
+  alternates: { canonical: "https://ghost-cursor.muratalpay.me/docs", types: { "text/markdown": "/docs.md" } },
 };
 
 const INSTALL = "npm i @imuratalpay/ghost-cursor";

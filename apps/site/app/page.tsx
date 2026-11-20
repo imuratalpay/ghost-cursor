@@ -9,7 +9,7 @@ import { TellAgent } from "@/components/tell-agent";
 import sortMenu from "@/recordings/sort-menu.json";
 
 export const metadata: Metadata = {
-  alternates: { types: { "text/markdown": "/docs.md" } },
+  alternates: { canonical: "https://ghost-cursor.muratalpay.me", types: { "text/markdown": "/docs.md" } },
 };
 
 const SENTENCE = "Read https://ghost-cursor.muratalpay.me/docs and record this component’s interaction.";

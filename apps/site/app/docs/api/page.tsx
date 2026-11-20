@@ -4,7 +4,7 @@ import { C, Code, H1, H2, Kbd, P, PrevNext, Table } from "@/components/prose";
 
 export const metadata: Metadata = {
   title: "API",
-  alternates: { types: { "text/markdown": "/docs/api.md" } },
+  alternates: { canonical: "https://ghost-cursor.muratalpay.me/docs/api", types: { "text/markdown": "/docs/api.md" } },
 };
 
 const Req = () => <span className="text-fg-3"> required</span>;

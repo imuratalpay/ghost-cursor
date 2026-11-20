@@ -8,7 +8,7 @@ import { render } from "@/lib/agent-docs";
 
 export const metadata: Metadata = {
   title: "For agents",
-  alternates: { types: { "text/markdown": "/docs/agents.md" } },
+  alternates: { canonical: "https://ghost-cursor.muratalpay.me/docs/agents", types: { "text/markdown": "/docs/agents.md" } },
 };
 
 /** The same Markdown agents get from /docs/agents.md, with commands pointing at this host. */

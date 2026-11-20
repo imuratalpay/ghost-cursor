@@ -13,7 +13,7 @@ import viewSettings from "@/recordings/view-settings.json";
 
 export const metadata: Metadata = {
   title: "Examples",
-  alternates: { types: { "text/markdown": "/docs/examples.md" } },
+  alternates: { canonical: "https://ghost-cursor.muratalpay.me/docs/examples", types: { "text/markdown": "/docs/examples.md" } },
 };
 
 export default function Examples() {
