@@ -30,13 +30,28 @@ const geistMono = localFont({
   fallback: ["ui-monospace", "SFMono-Regular", "Menlo", "monospace"],
 });
 
+const SITE_URL = "https://ghost-cursor.muratalpay.me";
+const SITE_DESCRIPTION =
+  "A React component that replays a recording over your real component, with real DOM events, and steps aside when the reader reaches for it.";
+
 export const metadata: Metadata = {
-  metadataBase: new URL("https://ghost-cursor.muratalpay.me"),
+  metadataBase: new URL(SITE_URL),
   title: { default: "ghost-cursor", template: "%s · ghost-cursor" },
-  description:
-    "A React component that replays a recording over your real component, with real DOM events, and steps aside when the reader reaches for it.",
+  description: SITE_DESCRIPTION,
   applicationName: "ghost-cursor",
-  alternates: { types: { "text/plain": "/llms.txt" } },
+  alternates: { canonical: SITE_URL, types: { "text/plain": "/llms.txt" } },
+  openGraph: {
+    title: "ghost-cursor",
+    description: SITE_DESCRIPTION,
+    url: SITE_URL,
+    siteName: "ghost-cursor",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "ghost-cursor",
+    description: SITE_DESCRIPTION,
+  },
 };
 
 export const viewport: Viewport = {
