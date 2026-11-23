@@ -12,7 +12,21 @@ Plays a recording. In development, `?record` in the URL turns it into a recorder
 | `children` (required) | `ReactNode` | | The component. It renders as usual and stays usable. |
 | `className` | `string` | | Classes for the box. The box is at least 240px tall. |
 | `style` | `CSSProperties` | | Inline styles for the box, such as `{ height: 320 }`. |
-| `loopDelay` | `number` | `1600` | How long the final state stays before the take restarts, in ms. |
+| `loopDelay` | `number` | `1600` | How long the final state stays before the take restarts, in ms. With `loop={false}`, how long it stays before the first frame and the Play button return. `Infinity` holds it. |
+| `loop` | `boolean` | `true` | Start the take over after `loopDelay`. When false, the take plays once. |
+| `autoplay` | `boolean` | `true` | Start playing on mount. When false, the first frame shows with a Play button. |
+| `onEnd` | `() => void` | | Called each time a run reaches its last frame: once per loop, or once with `loop={false}`. Not called when a seek lands on the end or a run is interrupted. |
+| `ref` | `Ref<GhostCursorHandle>` | | `play()`, `togglePause()` and `seek(ms)`, the same controls as the play button and the scrubber. |
+
+Reduced motion wins over `loop` and `autoplay`: the take never autoplays or loops.
+
+To play once and keep the final state on screen:
+
+```tsx
+<GhostReplay recording={take} loop={false} loopDelay={Infinity} onEnd={() => setDone(true)}>
+  <SortMenu />
+</GhostReplay>
+```
 
 ## DevRecorder
 
@@ -65,8 +79,9 @@ Every color in the stylesheet is a variable on `.gc-root`; the defaults are a li
 | The reader leaves without clicking or typing | Fades the ghost back in after 420ms and continues. |
 | The reader leaves after clicking or typing | Remounts the component and starts the take over. |
 | The box scrolls out of view, or the tab is hidden | Pauses. |
-| The reader prefers reduced motion | Shows the first frame and a Play button. |
-| The take ends | Holds the final state for `loopDelay`, then cross-fades back if the DOM changed. |
+| The reader prefers reduced motion | Shows the first frame and a Play button. Play runs the take once. |
+| The take ends | Calls `onEnd`. Holds the final state for `loopDelay`, then cross-fades back if the DOM changed and starts over. With `loop={false}`, it returns to the first frame and a Play button instead, or holds the final state if `loopDelay` is `Infinity`. |
+| Play is pressed at the end | Starts the take over from the first frame. |
 
 ## Recording format
 

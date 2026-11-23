@@ -1,6 +1,6 @@
 {
   "name": "@imuratalpay/ghost-cursor",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Live, replayable React component demos. A ghost cursor replays a recording with real DOM events and steps aside when the reader reaches for the component.",
   "license": "MIT",
   "homepage": "https://ghost-cursor.muratalpay.me",

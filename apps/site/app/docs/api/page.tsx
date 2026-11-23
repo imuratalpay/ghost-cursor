@@ -58,10 +58,42 @@ export default function Api() {
             <span key="d" className="num">
               1600
             </span>,
-            "How long the final state stays on screen before the take starts over, in ms.",
+            "How long the final state stays on screen before the take starts over, in ms. With loop={false}, how long it stays before the first frame and the Play button return. Infinity holds it.",
+          ],
+          [
+            <C key="p">loop</C>,
+            <C key="t">boolean</C>,
+            <C key="d">true</C>,
+            "Start the take over after loopDelay. When false, the take plays once.",
+          ],
+          [
+            <C key="p">autoplay</C>,
+            <C key="t">boolean</C>,
+            <C key="d">true</C>,
+            "Start playing on mount. When false, the first frame shows with a Play button.",
+          ],
+          [
+            <C key="p">onEnd</C>,
+            <C key="t">{"() => void"}</C>,
+            "",
+            "Called each time a run reaches its last frame: once per loop, or once with loop={false}. Not called when a seek lands on the end or a run is interrupted.",
+          ],
+          [
+            <C key="p">ref</C>,
+            <C key="t">{"Ref<GhostCursorHandle>"}</C>,
+            "",
+            "play(), togglePause() and seek(ms), the same controls as the play button and the scrubber.",
           ],
         ]}
       />
+      <P>
+        Reduced motion wins over <C>loop</C> and <C>autoplay</C>: the take never autoplays or loops. To play once and
+        keep the final state on screen, turn the loop off and hold the end:
+      </P>
+      <Code>{`
+<GhostCursor recording={recording} loop={false} loopDelay={Infinity} onEnd={() => setDone(true)}>
+  <SortMenu />
+</GhostCursor>`}</Code>
 
       <H2 id="dev-recorder">DevRecorder</H2>
       <P>
@@ -173,8 +205,12 @@ import { DevRecorder } from "@imuratalpay/ghost-cursor";
           ["The reader leaves after clicking or typing", "Remounts the component to its first frame and starts the take over."],
           ["The reader tabs into the box", "Steps aside the same way, until focus leaves the box."],
           ["The box scrolls out of view, or the tab is hidden", "Pauses."],
-          ["The reader prefers reduced motion", "Doesn’t autoplay. It shows the first frame and a Play button that runs the take once."],
-          ["The take ends", "Holds the final state for loopDelay. If the DOM changed, it cross-fades back to the first frame."],
+          ["The reader prefers reduced motion", "Doesn’t autoplay or loop. It shows the first frame and a Play button that runs the take once."],
+          [
+            "The take ends",
+            "Calls onEnd and holds the final state for loopDelay. If the DOM changed, it cross-fades back to the first frame, then starts over. With loop={false}, it returns to the first frame and a Play button instead, or holds the final state if loopDelay is Infinity.",
+          ],
+          ["Play is pressed at the end", "Starts the take over from the first frame."],
         ]}
       />
       <P>

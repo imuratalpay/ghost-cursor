@@ -123,8 +123,11 @@ The result is a Record, Stop, Copy recording, Preview toolbar under the componen
 | Take file | `<component>.take.json` next to the component |
 | Tries | 3, at full speed, 85% and 75% |
 | Dev server | the running one (`.next/dev/lock`), else ports 3000 to 3003, else one it starts and stops |
-| Loop | the final state holds 1600ms before the take restarts |
-| Reduced motion | no autoplay; a Play button runs the take once |
+| Loop | the final state holds 1600ms before the take restarts; `loopDelay` changes it |
+| Play once | `loop={false}`; add `loopDelay={Infinity}` to keep the final state on screen |
+| Autoplay | on; `autoplay={false}` shows the first frame and a Play button |
+| End of a run | `onEnd` is called once per run |
+| Reduced motion | no autoplay and no loop, whatever the props; a Play button runs the take once |
 
 ## Reference
 

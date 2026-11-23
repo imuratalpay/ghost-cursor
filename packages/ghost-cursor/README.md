@@ -62,16 +62,45 @@ A script can't switch on `:hover`, `:active` or `:focus`, so the ghost mirrors t
 }
 ```
 
+## Play once
+
+By default the take loops. To play it once and keep the final state on screen:
+
+```tsx
+<GhostCursor recording={recording} loop={false} loopDelay={Infinity} onEnd={() => setDone(true)}>
+  <SortMenu />
+</GhostCursor>
+```
+
+- `loop={false}` plays the take once. After `loopDelay` the first frame and a Play button come back. With `loopDelay={Infinity}` the final state stays until the reader presses Play.
+- `autoplay={false}` shows the first frame and a Play button until the reader presses Play.
+- `onEnd` is called each time a run reaches its last frame: once per loop with `loop`, once with `loop={false}`. It isn't called when a seek or a scrub lands on the end, or when the reader interrupts a run and it starts over.
+- Once a take has reached its end, pressing Play or calling `play()` starts it over from the first frame.
+- With reduced motion, the take never autoplays or loops, whatever the props say.
+
+A ref gives you the same controls as the play button and the scrubber:
+
+```tsx
+import { GhostCursor, type GhostCursorHandle } from "@imuratalpay/ghost-cursor";
+
+const demo = useRef<GhostCursorHandle>(null);
+
+<GhostCursor ref={demo} recording={recording} autoplay={false}>…</GhostCursor>
+
+demo.current?.play(); // also togglePause() and seek(ms)
+```
+
 ## API
 
 | Export | What it is |
 | --- | --- |
-| `GhostCursor`, `GhostReplay` | The same component under two names. Plays a recording. Props: `recording`, `children`, `className`, `style`, `loopDelay` (ms, default 1600). With `?record` in development, it records instead. |
+| `GhostCursor`, `GhostReplay` | The same component under two names. Plays a recording. Props: `recording`, `children`, `className`, `style`, `loopDelay` (ms, default 1600), `loop` (default true), `autoplay` (default true), `onEnd()`. With `?record` in development, it records instead. |
+| `GhostCursorHandle`, `GhostReplayHandle` | What a ref on the component holds: `play()`, `togglePause()`, `seek(ms)`. |
 | `DevRecorder` | The record toolbar in development, the children alone in production. Same props as `Recorder`. |
 | `Recorder` | Records in every environment. Props: `children`, `className`, `style`, `onRecord(recording)`, `captureSynthetic`. |
 | `Recording`, `RecordingInput` | The JSON format and the looser type a JSON import infers. |
 
-Playback pauses offscreen and in hidden tabs. With reduced motion, the first frame shows with a Play button instead of autoplay. Space pauses while the pointer is over the demo; the scrubber seeks with the mouse or the arrow keys.
+Playback pauses offscreen and in hidden tabs. With reduced motion, the first frame shows with a Play button instead of autoplay, and Play runs the take once. Space pauses while the pointer is over the demo; the scrubber seeks with the mouse or the arrow keys.
 
 ## License
 

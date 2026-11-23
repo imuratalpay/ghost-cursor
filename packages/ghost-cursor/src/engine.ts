@@ -26,6 +26,8 @@ export interface EngineHost {
   /** Run `fn` and flush resulting React updates before returning. */
   flush(fn: () => void): void;
   onTime(t: number, duration: number): void;
+  /** A playthrough reached its last frame. Not called when a seek lands there. */
+  onEnd(): void;
 }
 
 export interface EngineOptions {
@@ -146,15 +148,15 @@ export class Engine {
   // Public controls
 
   togglePause() {
-    if (!this.active) return this.play();
+    if (!this.active || (this.paused && this.atEnd())) return this.play();
     this.paused = !this.paused;
     this.emit();
     this.wake();
   }
 
-  /** Reduced motion: play the recording once on request. */
+  /** Start a run from the first frame, or resume one that hasn't reached its end. */
   play() {
-    if (this.active) {
+    if (this.active && !this.atEnd()) {
       if (this.paused) this.togglePause();
       return;
     }
@@ -203,8 +205,8 @@ export class Engine {
     this.seeking = false;
 
     this.time = t;
-    this.phase = "play";
-    this.phaseTime = 0;
+    // Landing on the end skips the play → tail transition, so a seek never counts as a finished run.
+    this.setPhase(t >= this.rec.duration ? "tail" : "play");
     const [x, y] = this.posAt(t);
     this.host.moveGhost(x, y, true);
     this.host.showGhost(this.handoff === null);
@@ -243,7 +245,8 @@ export class Engine {
     this.last = now;
     this.measure();
     this.step(dt);
-    if (this.running()) this.raf = requestAnimationFrame(this.tick);
+    // `onEnd` may have called play(), which already scheduled the next frame.
+    if (this.running() && !this.raf) this.raf = requestAnimationFrame(this.tick);
   };
 
   private step(dt: number) {
@@ -257,7 +260,10 @@ export class Engine {
       }
       case "play":
         this.advance(dt);
-        if (this.time >= this.rec.duration && !this.gate) this.setPhase("tail");
+        if (this.time >= this.rec.duration && !this.gate) {
+          this.setPhase("tail");
+          this.host.onEnd();
+        }
         break;
       case "tail":
         if (this.phaseTime >= this.opts.loopDelay) {
@@ -274,6 +280,11 @@ export class Engine {
   private setPhase(phase: Phase) {
     this.phase = phase;
     this.phaseTime = 0;
+  }
+
+  /** The playhead rests on the last frame: holding it, or seeked there. */
+  private atEnd() {
+    return this.phase === "tail" || (this.phase === "play" && this.time >= this.rec.duration && !this.gate);
   }
 
   private advance(dt: number) {
@@ -565,13 +576,19 @@ export class Engine {
     };
 
     // Capture listeners also see enter/leave of descendants; only the stage's own count.
+    // Chrome can fire pointerenter again when the DOM under a resting pointer remounts,
+    // so only an arrival from outside the stage hands it over.
+    let inside = stage.matches(":hover");
     on(stage, "pointerenter", (e) => {
-      if (e.isTrusted && e.target === stage && e.pointerType !== "touch") {
+      if (e.isTrusted && e.target === stage && e.pointerType !== "touch" && !inside) {
+        inside = true;
         this.takeOver("pointer", e.clientX, e.clientY);
       }
     });
     on(stage, "pointerleave", (e) => {
-      if (e.isTrusted && e.target === stage && this.handoff === "pointer") this.scheduleResume();
+      if (!e.isTrusted || e.target !== stage) return;
+      if (e.pointerType !== "touch") inside = false;
+      if (this.handoff === "pointer") this.scheduleResume();
     });
     on(stage, "pointerdown", (e) => {
       if (e.isTrusted && e.pointerType === "touch") this.takeOver("touch", e.clientX, e.clientY);

@@ -2,6 +2,7 @@ import { useMotionValue, useSpring } from "motion/react";
 import {
   Suspense,
   useEffect,
+  useImperativeHandle,
   useMemo,
   useRef,
   useState,
@@ -9,6 +10,7 @@ import {
   type ComponentType,
   type CSSProperties,
   type ReactNode,
+  type Ref,
 } from "react";
 import { flushSync } from "react-dom";
 import { Controls } from "./controls";
@@ -36,9 +38,23 @@ export interface StageProps {
   style?: CSSProperties;
 }
 
+/** Drives playback from outside, like the play button and the scrubber do. */
+export interface GhostCursorHandle {
+  /** Resume a paused take, or start it from the first frame when it is idle or at its end. */
+  play(): void;
+  /** Pause or resume. Resuming at the end starts the take over. */
+  togglePause(): void;
+  /** Jump to `t` ms into the take. */
+  seek(t: number): void;
+}
+
 interface PlayerProps extends StageProps {
   recording: RecordingInput;
   loopDelay: number;
+  loop?: boolean;
+  autoplay?: boolean;
+  onEnd?: () => void;
+  handleRef?: Ref<GhostCursorHandle>;
   /** Show the recorder instead of the player. */
   recordMode: boolean;
   Panel: ComponentType<RecorderPanelProps> | null;
@@ -52,6 +68,10 @@ export function Player({
   className,
   style,
   loopDelay,
+  loop = true,
+  autoplay = true,
+  onEnd,
+  handleRef,
   recordMode,
   Panel,
   onRecord,
@@ -70,13 +90,29 @@ export function Player({
   const contentRef = useRef<HTMLDivElement>(null);
   const timeRef = useRef<HTMLSpanElement>(null);
   const engineRef = useRef<Engine | null>(null);
+  // Read when the take ends, so a new callback each render doesn't rebuild the engine.
+  const onEndRef = useRef(onEnd);
+  useEffect(() => {
+    onEndRef.current = onEnd;
+  });
 
+  useImperativeHandle(
+    handleRef,
+    () => ({
+      play: () => engineRef.current?.play(),
+      togglePause: () => engineRef.current?.togglePause(),
+      seek: (t) => engineRef.current?.seek(t),
+    }),
+    [],
+  );
+
+  const idle = reduced || !autoplay;
   const [epoch, setEpoch] = useState(0);
   const [visible, setVisible] = useState(false);
   const [pressed, setPressed] = useState(false);
   const [ripples, setRipples] = useState<Ripple[]>([]);
   const [speed, setSpeed] = useState(1);
-  const [ui, setUi] = useState<EngineState>({ idle: reduced, paused: false, handoff: false, speed: 1 });
+  const [ui, setUi] = useState<EngineState>({ idle, paused: false, handoff: false, speed: 1 });
 
   const gx = useSpring(0, SPRING);
   const gy = useSpring(0, SPRING);
@@ -120,11 +156,12 @@ export function Player({
         slider?.setAttribute("aria-valuenow", (Math.round(t / 100) / 10).toString());
         slider?.setAttribute("aria-valuetext", `${next} of ${(d / 1000).toFixed(1)}s`);
       },
+      onEnd: () => onEndRef.current?.(),
     };
 
     const engine = new Engine(compiled, host, {
-      autoplay: !reduced,
-      loop: !reduced,
+      autoplay: autoplay && !reduced,
+      loop: loop && !reduced,
       fade: !reduced,
       loopDelay,
     });
@@ -142,9 +179,9 @@ export function Player({
       engineRef.current = null;
       setVisible(false);
       setPressed(false);
-      setUi({ idle: reduced, paused: false, handoff: false, speed: speedRef.current });
+      setUi({ idle, paused: false, handoff: false, speed: speedRef.current });
     };
-  }, [mode, compiled, reduced, loopDelay, gx, gy, progress]);
+  }, [mode, compiled, reduced, loopDelay, loop, autoplay, idle, gx, gy, progress]);
 
   // Space pauses while the reader is pointing at this demo or using its controls.
   // Inside the stage, keys belong to the component.
