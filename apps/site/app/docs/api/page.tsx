@@ -208,7 +208,7 @@ import { DevRecorder } from "@imuratalpay/ghost-cursor";
           ["The reader prefers reduced motion", "Doesn’t autoplay or loop. It shows the first frame and a Play button that runs the take once."],
           [
             "The take ends",
-            "Calls onEnd and holds the final state for loopDelay. If the DOM changed, it cross-fades back to the first frame, then starts over. With loop={false}, it returns to the first frame and a Play button instead, or holds the final state if loopDelay is Infinity.",
+            "Calls onEnd and holds the final state for loopDelay. If the DOM changed, it cross-fades back to the first frame, then starts over. With loop={false}, it returns to the first frame and a Play button instead, or holds the final state with a Play button if loopDelay is Infinity.",
           ],
           ["Play is pressed at the end", "Starts the take over from the first frame."],
         ]}

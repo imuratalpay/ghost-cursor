@@ -72,7 +72,7 @@ By default the take loops. To play it once and keep the final state on screen:
 </GhostCursor>
 ```
 
-- `loop={false}` plays the take once. After `loopDelay` the first frame and a Play button come back. With `loopDelay={Infinity}` the final state stays until the reader presses Play.
+- `loop={false}` plays the take once. After `loopDelay` the first frame and a Play button come back. With `loopDelay={Infinity}` the final state stays, the control shows Play, and one press starts the take over.
 - `autoplay={false}` shows the first frame and a Play button until the reader presses Play.
 - `onEnd` is called each time a run reaches its last frame: once per loop with `loop`, once with `loop={false}`. It isn't called when a seek or a scrub lands on the end, or when the reader interrupts a run and it starts over.
 - Once a take has reached its end, pressing Play or calling `play()` starts it over from the first frame.

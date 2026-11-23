@@ -43,6 +43,8 @@ export interface EngineState {
   /** Reduced motion: nothing runs until the reader presses Play. */
   idle: boolean;
   paused: boolean;
+  /** `loop={false}` with an infinite `loopDelay`: the final frame stays until Play starts the take over. */
+  held: boolean;
   handoff: boolean;
   speed: number;
 }
@@ -94,6 +96,7 @@ export class Engine {
 
   private active: boolean;
   private paused = false;
+  private held = false;
   private handoff: "pointer" | "touch" | "focus" | null = null;
   private dirty = false;
   private blockers = new Set<Blocker>();
@@ -131,7 +134,13 @@ export class Engine {
   }
 
   get state(): EngineState {
-    return { idle: !this.active, paused: this.paused, handoff: this.handoff !== null, speed: this.speed };
+    return {
+      idle: !this.active,
+      paused: this.paused,
+      held: this.held,
+      handoff: this.handoff !== null,
+      speed: this.speed,
+    };
   }
 
   get duration() {
@@ -148,7 +157,7 @@ export class Engine {
   // Public controls
 
   togglePause() {
-    if (!this.active || (this.paused && this.atEnd())) return this.play();
+    if (!this.active || this.held || (this.paused && this.atEnd())) return this.play();
     this.paused = !this.paused;
     this.emit();
     this.wake();
@@ -280,6 +289,11 @@ export class Engine {
   private setPhase(phase: Phase) {
     this.phase = phase;
     this.phaseTime = 0;
+    const held = phase === "tail" && !this.opts.loop && this.opts.loopDelay === Infinity;
+    if (held !== this.held) {
+      this.held = held;
+      this.emit();
+    }
   }
 
   /** The playhead rests on the last frame: holding it, or seeked there. */

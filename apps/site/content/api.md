@@ -80,7 +80,7 @@ Every color in the stylesheet is a variable on `.gc-root`; the defaults are a li
 | The reader leaves after clicking or typing | Remounts the component and starts the take over. |
 | The box scrolls out of view, or the tab is hidden | Pauses. |
 | The reader prefers reduced motion | Shows the first frame and a Play button. Play runs the take once. |
-| The take ends | Calls `onEnd`. Holds the final state for `loopDelay`, then cross-fades back if the DOM changed and starts over. With `loop={false}`, it returns to the first frame and a Play button instead, or holds the final state if `loopDelay` is `Infinity`. |
+| The take ends | Calls `onEnd`. Holds the final state for `loopDelay`, then cross-fades back if the DOM changed and starts over. With `loop={false}`, it returns to the first frame and a Play button instead, or holds the final state with a Play button if `loopDelay` is `Infinity`. |
 | Play is pressed at the end | Starts the take over from the first frame. |
 
 ## Recording format

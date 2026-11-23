@@ -104,11 +104,42 @@ test("Play on a held end starts the take from the beginning", async ({ page }) =
   await expectRestarted(page, root, before);
   await expect.poll(() => ends(page), { timeout: 12_000 }).toBe(2);
 
-  // Through the button: pause on the held end, then resume.
+  // Through the button: on a held end it shows Play, and one click starts over.
+  const button = root.locator(":scope > .gc-controls .gc-button");
+  await expect(button).toHaveAttribute("aria-label", "Play demo");
+  before = await mounts(page);
+  await button.click();
+  await expect(button).toHaveAttribute("aria-label", "Pause demo");
+  await expectRestarted(page, root, before);
+});
+
+test("a held end shows Play, and a single click starts the take over", async ({ page }) => {
+  const { root } = await open(page, "?loop=false&delay=inf");
+  const button = root.locator(":scope > .gc-controls .gc-button");
+  await expect(button).toHaveAttribute("aria-label", "Pause demo");
+  await expect.poll(() => ends(page), { timeout: 12_000 }).toBe(1);
+  await expect(button).toHaveAttribute("aria-label", "Play demo");
+  await expect(playPill(root)).toHaveCount(0);
+  await page.waitForTimeout(1000);
+  expect(await label(root)).toBe("Sort: A to Z");
+
+  const before = await mounts(page);
+  await button.click();
+  await expect(button).toHaveAttribute("aria-label", "Pause demo");
+  await expectRestarted(page, root, before);
+  await expect.poll(() => ends(page), { timeout: 12_000 }).toBe(2);
+  await expect(button).toHaveAttribute("aria-label", "Play demo");
+});
+
+test("Play after pausing on the end of a looping take starts it over", async ({ page }) => {
+  const { root } = await open(page, "?delay=4000");
+  await expect.poll(() => ends(page), { timeout: 12_000 }).toBe(1);
   const button = root.locator(":scope > .gc-controls .gc-button");
   await button.click();
   await expect(button).toHaveAttribute("aria-label", "Play demo");
-  before = await mounts(page);
+  const before = await mounts(page);
+  await page.waitForTimeout(500);
+  expect(await mounts(page)).toBe(before);
   await button.click();
   await expect(button).toHaveAttribute("aria-label", "Pause demo");
   await expectRestarted(page, root, before);

@@ -41,7 +41,7 @@ export function Controls({
   onSpeed: (speed: number) => void;
   extra?: ReactNode;
 }) {
-  const playing = !state.idle && !state.paused;
+  const playing = !state.idle && !state.paused && !state.held;
 
   return (
     <div className="gc-controls">

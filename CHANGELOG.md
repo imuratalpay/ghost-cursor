@@ -12,6 +12,7 @@
 ### Fixed
 
 - Pressing Play on a take that has reached its end now starts it over from the first frame. Before, it only unpaused, so a take paused at its end, or held there with `loopDelay={Infinity}`, never replayed.
+- While `loop={false}` and `loopDelay={Infinity}` hold the final state, the control shows Play instead of Pause, and one press starts the take over.
 - When the component remounts under a pointer that is already in the box, a repeated `pointerenter` no longer counts as the reader arriving. Only a pointer that comes in from outside hands the component over.
 
 ### Unchanged

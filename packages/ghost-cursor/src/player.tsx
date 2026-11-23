@@ -112,7 +112,7 @@ export function Player({
   const [pressed, setPressed] = useState(false);
   const [ripples, setRipples] = useState<Ripple[]>([]);
   const [speed, setSpeed] = useState(1);
-  const [ui, setUi] = useState<EngineState>({ idle, paused: false, handoff: false, speed: 1 });
+  const [ui, setUi] = useState<EngineState>({ idle, paused: false, held: false, handoff: false, speed: 1 });
 
   const gx = useSpring(0, SPRING);
   const gy = useSpring(0, SPRING);
@@ -179,7 +179,7 @@ export function Player({
       engineRef.current = null;
       setVisible(false);
       setPressed(false);
-      setUi({ idle, paused: false, handoff: false, speed: speedRef.current });
+      setUi({ idle, paused: false, held: false, handoff: false, speed: speedRef.current });
     };
   }, [mode, compiled, reduced, loopDelay, loop, autoplay, idle, gx, gy, progress]);
 
